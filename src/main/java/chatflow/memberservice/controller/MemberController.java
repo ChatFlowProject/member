@@ -8,6 +8,7 @@ import chatflow.memberservice.vo.ResponseMember;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +20,14 @@ import java.util.stream.Collectors;
 @RequestMapping("/")
 @RequiredArgsConstructor
 public class MemberController {
+    private final Environment env;
     private final MemberService memberService;
+
+    @GetMapping("/health-check")
+    public String status() {
+        return String.format("Working in Member Service on PORT %s",
+                env.getProperty("local.server.port"));
+    }
 
     @PostMapping("/members")
     public ResponseEntity<ResponseMember> createMember(@RequestBody RequestSignUp member) {
