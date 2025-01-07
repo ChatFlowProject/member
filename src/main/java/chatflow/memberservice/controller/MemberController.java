@@ -3,8 +3,10 @@ package chatflow.memberservice.controller;
 import chatflow.memberservice.dto.MemberDto;
 import chatflow.memberservice.entity.Member;
 import chatflow.memberservice.service.MemberService;
+import chatflow.memberservice.vo.RequestSignIn;
 import chatflow.memberservice.vo.RequestSignUp;
 import chatflow.memberservice.vo.ResponseMember;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
@@ -29,7 +31,7 @@ public class MemberController {
                 env.getProperty("local.server.port"));
     }
 
-    @PostMapping("/members")
+    @PostMapping("/sign-up")
     public ResponseEntity<ResponseMember> createMember(@RequestBody RequestSignUp member) {
         ModelMapper mapper = new ModelMapper();
         mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
@@ -41,22 +43,36 @@ public class MemberController {
         return ResponseEntity.status(HttpStatus.CREATED).body(responseMember);
     }
 
-    @GetMapping("/members")
-    public ResponseEntity<List<ResponseMember>> getMembers() {
-        ModelMapper mapper = new ModelMapper();
-        List<Member> memberList = memberService.getMemberByAll();
-        List<ResponseMember> result = memberList.stream()
-                .map(member -> mapper.map(member, ResponseMember.class))
-                .collect(Collectors.toList());
-
-        return ResponseEntity.status(HttpStatus.OK).body(result);
+    @PostMapping("/login")
+    @Operation(summary = "User Login", description = "Authenticate user credentials and return a token")
+    public String login(@RequestBody RequestSignIn requestSignIn) {
+        return "This endpoint is handled by Spring Security.";
     }
 
     @GetMapping("/members/{memberId}")
-    public ResponseEntity<ResponseMember> getMember(@PathVariable("memberId") String memberId) {
+    public ResponseEntity<ResponseMember> getMemberByMemberId(@PathVariable("memberId") String memberId) {
         MemberDto memberDto = memberService.getMemberByMemberId(memberId);
         ResponseMember ret = new ModelMapper().map(memberDto, ResponseMember.class);
 
         return ResponseEntity.status(HttpStatus.OK).body(ret);
     }
+
+    @GetMapping("/members")
+    public ResponseEntity<ResponseMember> getMemberByEmail(@RequestParam("email") String email) {
+        MemberDto memberDto = memberService.getMemberByEmail(email);
+        ResponseMember ret = new ModelMapper().map(memberDto, ResponseMember.class);
+
+        return ResponseEntity.status(HttpStatus.OK).body(ret);
+    }
+
+//    @GetMapping("/members")
+//    public ResponseEntity<List<ResponseMember>> getAllMembers() {
+//        ModelMapper mapper = new ModelMapper();
+//        List<Member> memberList = memberService.getMemberByAll();
+//        List<ResponseMember> result = memberList.stream()
+//                .map(member -> mapper.map(member, ResponseMember.class))
+//                .collect(Collectors.toList());
+//
+//        return ResponseEntity.status(HttpStatus.OK).body(result);
+//    }
 }

@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public enum State {
+public enum MemberState {
     ONLINE("온라인"),
     IDLE("자리비움"),
     DO_NOT_DISTURB("방해금지"),

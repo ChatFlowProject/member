@@ -13,12 +13,12 @@ public class Member {
     private Long id;
     @Column(nullable = false, unique = true)
     private String memberId;
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String encryptedPwd;
     @Column(nullable = false, length = 50, unique = true)
     private String email;
     @Column(nullable = false, length = 50)
     private String name;
     @Enumerated(EnumType.STRING)
-    private State state;
+    private MemberState memberState;
 }

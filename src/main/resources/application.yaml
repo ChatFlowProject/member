@@ -50,3 +50,6 @@ logging:
 token:
   expiration_time: 86400000 # 단위ms, 86400000ms = 24시간
   secret: user_token_test_for_signature
+
+tag:
+  version: 0.2.0
