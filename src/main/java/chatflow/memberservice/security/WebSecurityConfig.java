@@ -1,4 +1,4 @@
-package chatflow.memberservice.config.security;
+package chatflow.memberservice.security;
 
 import chatflow.memberservice.service.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -11,17 +11,17 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.access.expression.WebExpressionAuthorizationManager;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-// Note: 설정 정보 클래스 이므로 아래의 내용들 빈 등록 가능(MemberService, BCryptPasswordEncoder, Environment, SecurityFilterChain)
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
-public class WebSecurity {
+public class WebSecurityConfig {
     private final MemberService memberService;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder; // MemberServiceApplication 클래스에서 등록한 Bean
+    private final AuthenticationEntryPoint entryPoint; // JwtAuthenticationEntryPoint 인터페이스
+    private final BCryptPasswordEncoder bCryptPasswordEncoder; // EncoderConfig에 등록한 Bean
     private final Environment env;
 
     @Bean
@@ -32,23 +32,18 @@ public class WebSecurity {
 
         http.csrf((csrf) -> csrf.disable());
         http.authorizeHttpRequests((authz) -> authz
-                                .requestMatchers(new AntPathRequestMatcher("/swagger")).permitAll()
-                                .requestMatchers(new AntPathRequestMatcher("/swagger-ui.html")).permitAll()
                                 .requestMatchers(new AntPathRequestMatcher("/swagger-ui/**")).permitAll()
                                 .requestMatchers(new AntPathRequestMatcher("/swagger-resources/**")).permitAll()
                                 .requestMatchers(new AntPathRequestMatcher("/api-docs")).permitAll()
                                 .requestMatchers(new AntPathRequestMatcher("/api-docs/**")).permitAll()
                                 .requestMatchers(new AntPathRequestMatcher("/v3/api-docs/**")).permitAll()
-                        .requestMatchers(new AntPathRequestMatcher("/h2-console/**")).permitAll()
-                        .requestMatchers(new AntPathRequestMatcher("/members", "POST")).permitAll()
-                        .requestMatchers(new AntPathRequestMatcher("/health-check")).permitAll()
-//                        .requestMatchers("/", "/error", "/favicon.ico", "/**/*.png", "/**/*.gif", "/**/*.svg", "/**/*.jpg", "/**/*.html", "/**/*.css", "/**/*.js").permitAll()
-                        .requestMatchers("/**")
-                        .access(new WebExpressionAuthorizationManager("hasIpAddress('127.0.0.1') or hasIpAddress('::1')")) // '::1'은 IPv6의 루프백 주소로, IPv4의 127.0.0.1과 동일
-                        .anyRequest().authenticated()
+                                .requestMatchers(new AntPathRequestMatcher("/h2-console/**")).permitAll()
+                                .requestMatchers(new AntPathRequestMatcher("/sign-up")).permitAll()
+                                .requestMatchers(new AntPathRequestMatcher("/error")).permitAll()
                 )
                 .authenticationManager(authenticationManager)
-                .sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+                .sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .exceptionHandling(handler -> handler.authenticationEntryPoint(entryPoint));
 
         http.addFilter(getAuthenticationFilter(authenticationManager));
         http.headers((headers) -> headers.frameOptions((frameOptions) -> frameOptions.sameOrigin()));

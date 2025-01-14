@@ -1,4 +1,4 @@
-package chatflow.memberservice.config.security;
+package chatflow.memberservice.security;
 
 import chatflow.memberservice.dto.MemberDto;
 import chatflow.memberservice.service.MemberService;
@@ -73,9 +73,9 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
         SecretKey secretKey = Keys.hmacShaKeyFor(secretKeyBytes);
         Instant now = Instant.now();
         String token = Jwts.builder()
-                .subject(memberDetails.getMemberId())
-                .expiration(Date.from(now.plusMillis(Long.parseLong(Objects.requireNonNull(environment.getProperty("token.expiration_time"))))))
-                .issuedAt(Date.from(now))
+                .setSubject(memberDetails.getMemberId())
+                .setExpiration(Date.from(now.plusMillis(Long.parseLong(Objects.requireNonNull(environment.getProperty("token.expiration_time"))))))
+                .setIssuedAt(Date.from(now))
                 .signWith(secretKey)
                 .compact();
 

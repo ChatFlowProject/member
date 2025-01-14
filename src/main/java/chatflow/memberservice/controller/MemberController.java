@@ -1,7 +1,6 @@
 package chatflow.memberservice.controller;
 
 import chatflow.memberservice.dto.MemberDto;
-import chatflow.memberservice.entity.Member;
 import chatflow.memberservice.service.MemberService;
 import chatflow.memberservice.vo.RequestSignIn;
 import chatflow.memberservice.vo.RequestSignUp;
@@ -14,9 +13,6 @@ import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/")
@@ -64,15 +60,4 @@ public class MemberController {
 
         return ResponseEntity.status(HttpStatus.OK).body(ret);
     }
-
-//    @GetMapping("/members")
-//    public ResponseEntity<List<ResponseMember>> getAllMembers() {
-//        ModelMapper mapper = new ModelMapper();
-//        List<Member> memberList = memberService.getMemberByAll();
-//        List<ResponseMember> result = memberList.stream()
-//                .map(member -> mapper.map(member, ResponseMember.class))
-//                .collect(Collectors.toList());
-//
-//        return ResponseEntity.status(HttpStatus.OK).body(result);
-//    }
 }
