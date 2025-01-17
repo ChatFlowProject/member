@@ -1,0 +1,37 @@
+package chatflow.memberservice.dto.member.response;
+
+import chatflow.memberservice.common.MemberType;
+import chatflow.memberservice.entity.Member;
+import io.swagger.v3.oas.annotations.media.Schema;
+
+import java.time.LocalDateTime;
+import java.util.UUID;
+
+public record MemberInfoResponse(
+        @Schema(description = "회원 고유키", example = "98bd5bf6-848a-43d4-8683-205523c9e359")
+        UUID id,
+        @Schema(description = "회원 아이디", example = "jerry0339")
+        String account,
+        @Schema(description = "회원 이름", example = "Jerry")
+        String name,
+        @Schema(description = "회원 이메일", example = "jerry0339@naver.com")
+        String email,
+        @Schema(description = "회원 나이", example = "15")
+        Integer age,
+        @Schema(description = "회원 타입", example = "USER")
+        MemberType type,
+        @Schema(description = "회원 생성일", example = "2008-04-07T15:00:00")
+        LocalDateTime createdAt
+) {
+    public static MemberInfoResponse from(Member member) {
+        return new MemberInfoResponse(
+                member.getId(),
+                member.getAccount(),
+                member.getName(),
+                member.getEmail(),
+                member.getAge(),
+                member.getType(),
+                member.getCreatedAt()
+        );
+    }
+}

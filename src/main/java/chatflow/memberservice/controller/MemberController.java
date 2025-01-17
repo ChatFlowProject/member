@@ -1,63 +1,55 @@
 package chatflow.memberservice.controller;
 
-import chatflow.memberservice.dto.MemberDto;
+import chatflow.memberservice.dto.ApiResponse;
+import chatflow.memberservice.dto.member.request.MemberUpdateRequest;
+import chatflow.memberservice.security.UserAuthorize;
 import chatflow.memberservice.service.MemberService;
-import chatflow.memberservice.vo.RequestSignIn;
-import chatflow.memberservice.vo.RequestSignUp;
-import chatflow.memberservice.vo.ResponseMember;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
-import org.modelmapper.convention.MatchingStrategies;
-import org.springframework.core.env.Environment;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 
-@RestController
-@RequestMapping("/")
+import java.util.UUID;
+
+@Tag(name = "로그인 후 사용할 수 있는 API")
 @RequiredArgsConstructor
+@UserAuthorize
+@RestController
+@RequestMapping("/members")
 public class MemberController {
-    private final Environment env;
     private final MemberService memberService;
 
-    @GetMapping("/health-check")
-    public String status() {
-        return String.format("Working in Member Service on PORT %s",
-                env.getProperty("local.server.port"));
+    @Operation(summary = "회원 정보 조회")
+    @GetMapping
+    public ApiResponse getMemberInfo(@AuthenticationPrincipal User user) {
+        return ApiResponse.success(memberService.getMemberInfo(UUID.fromString(user.getUsername())));
     }
 
-    @PostMapping("/sign-up")
-    public ResponseEntity<ResponseMember> createMember(@RequestBody RequestSignUp member) {
-        ModelMapper mapper = new ModelMapper();
-        mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
+//    @GetMapping("/email/{email}")
+//    public ApiResponse getMemberByEmail(@PathVariable("email") String email) {
+//        return ApiResponse.success(memberService.getMemberByEmail(email));
+//    }
+//
+//    @GetMapping("/search")
+//    public ApiResponse searchMemberByName(
+//            @RequestParam String name,
+//            @RequestParam(defaultValue = "0") int page,
+//            @RequestParam(defaultValue = "10") int size
+//    ) {
+//        return ApiResponse.success(memberService.getAllMemberByName(name, page, size));
+//    }
 
-        MemberDto memberDto = mapper.map(member, MemberDto.class);
-        memberService.createMember(memberDto);
-
-        ResponseMember responseMember = mapper.map(memberDto, ResponseMember.class); // source , destination
-        return ResponseEntity.status(HttpStatus.CREATED).body(responseMember);
+    @Operation(summary = "회원 탈퇴")
+    @DeleteMapping
+    public ApiResponse deleteMember(@AuthenticationPrincipal User user) {
+        return ApiResponse.success(memberService.deleteMember(UUID.fromString(user.getUsername())));
     }
 
-    @PostMapping("/login")
-    @Operation(summary = "User Login", description = "Authenticate user credentials and return a token")
-    public String login(@RequestBody RequestSignIn requestSignIn) {
-        return "This endpoint is handled by Spring Security.";
-    }
-
-    @GetMapping("/members/{memberId}")
-    public ResponseEntity<ResponseMember> getMemberByMemberId(@PathVariable("memberId") String memberId) {
-        MemberDto memberDto = memberService.getMemberByMemberId(memberId);
-        ResponseMember ret = new ModelMapper().map(memberDto, ResponseMember.class);
-
-        return ResponseEntity.status(HttpStatus.OK).body(ret);
-    }
-
-    @GetMapping("/members")
-    public ResponseEntity<ResponseMember> getMemberByEmail(@RequestParam("email") String email) {
-        MemberDto memberDto = memberService.getMemberByEmail(email);
-        ResponseMember ret = new ModelMapper().map(memberDto, ResponseMember.class);
-
-        return ResponseEntity.status(HttpStatus.OK).body(ret);
+    @Operation(summary = "회원 정보 수정")
+    @PutMapping
+    public ApiResponse updateMember(@AuthenticationPrincipal User user, @RequestBody MemberUpdateRequest request) {
+        return ApiResponse.success(memberService.updateMember(UUID.fromString(user.getUsername()), request));
     }
 }
