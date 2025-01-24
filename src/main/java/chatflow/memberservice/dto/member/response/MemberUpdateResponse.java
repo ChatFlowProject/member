@@ -8,10 +8,10 @@ public record MemberUpdateResponse(
         boolean result,
         @Schema(description = "회원 이름", example = "Jerry")
         String name,
-        @Schema(description = "회원 나이", example = "15")
-        Integer age
+        @Schema(description = "회원 생년월일", example = "2000-04-07")
+        String birth
 ) {
     public static MemberUpdateResponse of(boolean result, Member member) {
-        return new MemberUpdateResponse(result, member.getName(), member.getAge());
+        return new MemberUpdateResponse(result, member.getName(), member.getBirth().toString());
     }
 }

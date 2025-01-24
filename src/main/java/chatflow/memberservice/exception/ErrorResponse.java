@@ -43,6 +43,10 @@ public class ErrorResponse {
         return new ErrorResponse(code);
     }
 
+    public static ErrorResponse of(final ErrorCode code, String message) {
+        return new ErrorResponse(code, message);
+    }
+
     public static ErrorResponse of(final ErrorCode code, final List<FieldError> errors) {
         return new ErrorResponse(code, errors);
     }

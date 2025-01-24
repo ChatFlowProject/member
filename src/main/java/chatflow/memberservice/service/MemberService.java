@@ -45,27 +45,4 @@ public class MemberService {
                 })
                 .orElseThrow(() -> new IllegalArgumentException("아이디 또는 비밀번호가 일치하지 않습니다."));
     }
-
-//    public MemberInfoResponse getMemberByEmail(String email) {
-//        return memberRepository.findByEmail(email)
-//                .map(MemberInfoResponse::from)
-//                .orElseThrow(() -> new IllegalArgumentException("아이디 또는 비밀번호가 일치하지 않습니다."));
-//    }
-
-//    public ApiResponse searchMemberByName(String name, int page, int size) {
-//        // Pageable 객체 생성 (정렬 기준: 이름 오름차순)
-//        Pageable pageable = PageRequest.of(page, size, Sort.by("name").ascending());
-//
-//        // 이름으로 검색 (대소문자 구분 없는 검색을 위해 IgnoreCase 사용)
-//        Page<Member> membersPage = memberRepository.findByNameContainingIgnoreCase(name, pageable);
-//
-//        // Page<Member>를 DTO로 변환
-//        return ApiResponse.success(
-//                membersPage.getContent().stream()
-//                        .map(MemberResponse::fromEntity) // Member -> MemberResponse 변환
-//                        .collect(Collectors.toList()),
-//                membersPage.getTotalPages(),
-//                membersPage.getTotalElements()
-//        );
-//    }
 }

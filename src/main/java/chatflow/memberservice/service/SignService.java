@@ -26,14 +26,17 @@ public class SignService {
         try {
             memberRepository.flush();
         } catch (DataIntegrityViolationException e) {
-            throw new IllegalArgumentException("이미 사용중인 아이디입니다.");
+            if(e.getMessage().contains(request.email()))
+                throw new IllegalArgumentException("이미 사용중인 이메일입니다.");
+            if(e.getMessage().contains(request.nickname()))
+                throw new IllegalArgumentException("이미 사용중인 닉네임입니다.");
         }
         return SignUpResponse.from(member);
     }
 
     @Transactional(readOnly = true)
     public SignInResponse signIn(SignInRequest request) {
-        Member member = memberRepository.findByAccount(request.account())
+        Member member = memberRepository.findByEmail(request.email())
                 .filter(it -> encoder.matches(request.password(), it.getPassword()))
                 .orElseThrow(() -> new IllegalArgumentException("아이디 또는 비밀번호가 일치하지 않습니다."));
         String token = tokenProvider.createToken(String.format("%s:%s", member.getId(), member.getType()));

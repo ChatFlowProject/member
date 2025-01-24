@@ -9,9 +9,12 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -20,15 +23,18 @@ import java.util.UUID;
 public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id; // memberId
-    @Column(nullable = false, scale = 20, unique = true)
-    private String account;
-    @Column(nullable = false)
-    private String password;
-    private String name;
+    private UUID id;
     @Column(nullable = false, length = 50, unique = true)
     private String email;
-    private Integer age;
+    @Column(nullable = false)
+    private String password;
+    @Column(nullable = false, length = 20, unique = true)
+    private String nickname;
+    @Column(nullable = false, length = 20)
+    private String name;
+    @Column(nullable = false)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate birth;
     @Enumerated(EnumType.STRING)
     private MemberState state;
     @Enumerated(EnumType.STRING)
@@ -39,23 +45,23 @@ public class Member {
 
     public static Member from(SignUpRequest request, PasswordEncoder encoder) {
         return Member.builder()
-                .account(request.account())
-                .password(encoder.encode(request.password()))
-                .name(request.name())
                 .email(request.email())
-                .age(request.age())
+                .password(encoder.encode(request.password()))
+                .nickname(request.nickname())
+                .name(request.name())
+                .birth(LocalDate.parse(request.birth(), DateTimeFormatter.ISO_LOCAL_DATE))
                 .state(MemberState.OFFLINE)
-                .type(MemberType.USER)
+                .type(MemberType.MEMBER)
                 .build();
     }
 
     @Builder
-    private Member(String account, String password, String name, String email, Integer age, MemberState state,MemberType type) {
-        this.account = account;
-        this.password = password;
-        this.name = name;
+    private Member(String email, String password, String nickname, String name, LocalDate birth, MemberState state, MemberType type) {
         this.email = email;
-        this.age = age;
+        this.password = password;
+        this.nickname = nickname;
+        this.name = name;
+        this.birth = birth;
         this.state = state;
         this.type = type;
     }
@@ -64,6 +70,6 @@ public class Member {
         this.password = newMember.newPassword() == null || newMember.newPassword().isBlank()
                 ? this.password : encoder.encode(newMember.newPassword());
         this.name = newMember.name();
-        this.age = newMember.age();
+        this.birth = LocalDate.parse(newMember.birth(), DateTimeFormatter.ISO_LOCAL_DATE);
     }
 }

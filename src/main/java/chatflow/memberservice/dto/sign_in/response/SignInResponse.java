@@ -6,7 +6,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 public record SignInResponse(
         @Schema(description = "회원 이름", example = "Jerry")
         String name,
-        @Schema(description = "회원 유형", example = "USER")
+        @Schema(description = "회원 유형", example = "MEMBER")
         MemberType type,
         String token
 ) {

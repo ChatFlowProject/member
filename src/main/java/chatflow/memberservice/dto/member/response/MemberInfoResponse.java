@@ -10,15 +10,15 @@ import java.util.UUID;
 public record MemberInfoResponse(
         @Schema(description = "회원 고유키", example = "98bd5bf6-848a-43d4-8683-205523c9e359")
         UUID id,
-        @Schema(description = "회원 아이디", example = "jerry0339")
-        String account,
-        @Schema(description = "회원 이름", example = "Jerry")
-        String name,
         @Schema(description = "회원 이메일", example = "jerry0339@naver.com")
         String email,
-        @Schema(description = "회원 나이", example = "15")
-        Integer age,
-        @Schema(description = "회원 타입", example = "USER")
+        @Schema(description = "회원 닉네임", example = "jerry0339")
+        String nickname,
+        @Schema(description = "회원 이름", example = "Jerry")
+        String name,
+        @Schema(description = "회원 생년월일", example = "2000-04-07")
+        String birth,
+        @Schema(description = "회원 타입", example = "MEMBER")
         MemberType type,
         @Schema(description = "회원 생성일", example = "2008-04-07T15:00:00")
         LocalDateTime createdAt
@@ -26,10 +26,10 @@ public record MemberInfoResponse(
     public static MemberInfoResponse from(Member member) {
         return new MemberInfoResponse(
                 member.getId(),
-                member.getAccount(),
-                member.getName(),
                 member.getEmail(),
-                member.getAge(),
+                member.getNickname(),
+                member.getName(),
+                member.getBirth().toString(),
                 member.getType(),
                 member.getCreatedAt()
         );

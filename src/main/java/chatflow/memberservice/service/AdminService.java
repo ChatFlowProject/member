@@ -16,7 +16,7 @@ public class AdminService {
 
     @Transactional(readOnly = true)
     public List<MemberInfoResponse> getMembers() {
-        return memberRepository.findAllByType(MemberType.USER).stream()
+        return memberRepository.findAllByType(MemberType.MEMBER).stream()
                 .map(MemberInfoResponse::from)
                 .toList();
     }

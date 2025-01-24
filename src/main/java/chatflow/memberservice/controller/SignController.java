@@ -6,6 +6,7 @@ import chatflow.memberservice.dto.sign_up.request.SignUpRequest;
 import chatflow.memberservice.service.SignService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,13 +22,13 @@ public class SignController {
 
     @Operation(summary = "회원 가입")
     @PostMapping("/sign-up")
-    public ApiResponse signUp(@RequestBody SignUpRequest request) {
+    public ApiResponse signUp(@Valid @RequestBody SignUpRequest request) {
         return ApiResponse.success(signService.registMember(request));
     }
 
     @Operation(summary = "로그인")
     @PostMapping("/sign-in")
-    public ApiResponse signIn(@RequestBody SignInRequest request) {
+    public ApiResponse signIn(@Valid @RequestBody SignInRequest request) {
         return ApiResponse.success(signService.signIn(request));
     }
 }

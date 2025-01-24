@@ -9,6 +9,8 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
+
 @RequiredArgsConstructor
 @Component
 public class AdminInitializer implements ApplicationRunner {
@@ -18,10 +20,11 @@ public class AdminInitializer implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) {
         memberRepository.save(Member.builder()
-                .account("admin")
+                .email("admin")
                 .password(encoder.encode("admin"))
+                .nickname("admin")
                 .name("관리자")
-                .email("jcu011@naver.com")
+                .birth(LocalDate.of(2025, 1, 1))
                 .type(MemberType.ADMIN)
                 .build());
     }
