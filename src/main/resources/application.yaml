@@ -1,22 +1,21 @@
 server:
-  port: 0
+  port: 8081
 
 spring:
   application:
     name: member-service
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://43.201.67.114:3306/mysql8?useSSL=false&serverTimezone=Asia/Seoul&characterEncoding=UTF-8
-    username: root
-    password: 4321
+    url: jdbc:mysql://34.64.47.229:3306/mysql8?useSSL=false&serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    username: test
+    password: 1234
   jpa:
     database: mysql
-    # open-in-view: true # Open Session in View(OSIV) 패턴을 활성화
     hibernate:
-      ddl-auto: create-drop
-    show-sql: true # 실행되는 SQL 쿼리를 콘솔에 출력
+      ddl-auto: none
+    show-sql: true
     properties:
-      hibernate.format_sql: true # 출력되는 SQL 쿼리를 보기 좋게 포맷팅
+      hibernate.format_sql: true
       dialect: org.hibernate.dialect.MySQL8InnoDBDialect
 
 eureka:
@@ -28,7 +27,7 @@ eureka:
     register-with-eureka: true
     fetch-registry: true
     service-url:
-      defaultZone: http://127.0.0.1:8761/eureka
+      defaultZone: http://flowchat.shop:30001/eureka
 
 springdoc:
   default-consumes-media-type: application/json;charset=UTF-8
@@ -49,4 +48,4 @@ logging:
     chatflow.memberservice.service: INFO
 
 tag:
-  version: 0.3.0
+  version: 1.0.0

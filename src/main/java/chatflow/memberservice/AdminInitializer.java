@@ -19,6 +19,7 @@ public class AdminInitializer implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) {
+        if(memberRepository.findByEmail("admin").isPresent()) return;
         memberRepository.save(Member.builder()
                 .email("admin")
                 .password(encoder.encode("admin"))
