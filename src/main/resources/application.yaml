@@ -12,7 +12,7 @@ spring:
   jpa:
     database: mysql
     hibernate:
-      ddl-auto: none
+      ddl-auto: create-drop
     show-sql: true
     properties:
       hibernate.format_sql: true
@@ -48,4 +48,4 @@ logging:
     chatflow.memberservice.service: INFO
 
 tag:
-  version: 1.1.0
+  version: 1.2.2
