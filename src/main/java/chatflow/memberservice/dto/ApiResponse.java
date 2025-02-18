@@ -2,20 +2,24 @@ package chatflow.memberservice.dto;
 
 import org.springframework.http.HttpStatus;
 
-public record ApiResponse(
+public record ApiResponse<T>(
         int status,
         String message,
-        Object data
+        T data
 ) {
-    public static ApiResponse success(Object data) {
-        return new ApiResponse(HttpStatus.OK.value(), null, data);
+    public static <T> ApiResponse<T> success() {
+        return new ApiResponse<>(HttpStatus.OK.value(), null, null);
     }
 
-    public static ApiResponse success() {
-        return new ApiResponse(HttpStatus.OK.value(), null, null);
+    public static <T> ApiResponse<T> success(T data) {
+        return new ApiResponse<>(HttpStatus.OK.value(), null, data);
     }
 
-    public static ApiResponse error(String message) {
-        return new ApiResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), message, null);
+    public static <T> ApiResponse<T> created(T data) {
+        return new ApiResponse<>(HttpStatus.CREATED.value(), null, data);
+    }
+
+    public static <T> ApiResponse<T> accepted(T data) {
+        return new ApiResponse<>(HttpStatus.ACCEPTED.value(), null, data);
     }
 }

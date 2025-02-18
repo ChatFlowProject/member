@@ -1,6 +1,8 @@
 package chatflow.memberservice.service;
 
 import chatflow.memberservice.dto.friendship.FriendshipRequest;
+import chatflow.memberservice.dto.friendship.SentFriendResponse;
+import chatflow.memberservice.dto.member.response.MemberSimpleResponse;
 import chatflow.memberservice.entity.Friendship;
 import chatflow.memberservice.entity.Member;
 import chatflow.memberservice.repository.FriendshipRepository;
@@ -28,6 +30,8 @@ public class FriendshipService {
     @Transactional
     public void requestFriendship(UUID memberId, FriendshipRequest request) {
         Member member = memberService.getMemberById(memberId);
+        if(request.friendNickname().equals(member.getNickname()))
+            throw new IllegalArgumentException("친구 추가 요청할 수 없는 대상입니다.");
         Member friend = memberRepository.findByNickname(request.friendNickname())
                 .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 친구의 닉네임입니다."));
         try {
@@ -51,14 +55,18 @@ public class FriendshipService {
         friendship.acceptFriendship();
     }
 
-//    @Transactional(readOnly = true)
-//    public List<Member> getSentFriendRequests(UUID memberId) {
-//        Member member = memberService.getMemberById(memberId);
-//        return friendshipRepository.findByFromMemberIdAndIsFriendFalse(memberId)
-//                .stream()
-//                .map(Friendship::getToMember)
-//                .collect(Collectors.toList());
-//    }
+    @Transactional(readOnly = true)
+    public SentFriendResponse getSentFriendRequests(UUID memberId) {
+        List<Friendship> friendships = friendshipRepository.findByToMemberIdAndIsFriendFalse(memberId);
+        List<MemberSimpleResponse> sentFriendRequests = friendships.stream()
+                .map(friendship -> new MemberSimpleResponse(
+                        friendship.getFromMember().getNickname(),
+                        friendship.getFromMember().getName(),
+                        friendship.getFromMember().getCreatedAt()
+                ))
+                .collect(Collectors.toList());
+        return new SentFriendResponse(sentFriendRequests);
+    }
 
 //    @Transactional(readOnly = true)
 //    public List<Member> getReceivedFriendRequests(UUID memberId) {

@@ -20,7 +20,7 @@ public record MemberInfoResponse(
         String birth,
         @Schema(description = "회원 타입", example = "MEMBER")
         MemberType type,
-        @Schema(description = "회원 생성일", example = "2008-04-07T15:00:00")
+        @Schema(description = "회원 가입 시기", example = "2008-04-07T15:00:00")
         LocalDateTime createdAt
 ) {
     public static MemberInfoResponse from(Member member) {

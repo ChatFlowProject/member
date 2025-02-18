@@ -2,6 +2,7 @@ package chatflow.memberservice.controller;
 
 import chatflow.memberservice.dto.ApiResponse;
 import chatflow.memberservice.dto.friendship.FriendshipRequest;
+import chatflow.memberservice.dto.friendship.SentFriendResponse;
 import chatflow.memberservice.security.MemberAuthorize;
 import chatflow.memberservice.service.FriendshipService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -14,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
-@Tag(name = "친구 API")
+@Tag(name = "친구 API (인증 토큰 필요)")
 @RequiredArgsConstructor
 @MemberAuthorize
 @RestController
@@ -36,16 +37,14 @@ public class FriendshipController {
         return ApiResponse.success();
     }
 
-//    @Operation(summary = "내가 보낸 친구 요청 조회")
-//    @GetMapping("/member/{memberId}")
-//    public ApiResponse getSentFriendRequests(@AuthenticationPrincipal User user) {
-//        UUID memberId = UUID.fromString(user.getUsername());
-//        List<Member> sentRequests = friendshipService.getSentFriendRequests(memberId);
-//        return ApiResponse.success(sentRequests.stream().map(MemberResponse::from).collect(Collectors.toList()));
-//    }
+    @Operation(summary = "내가 보낸 친구 요청 목록 조회")
+    @GetMapping("/sent")
+    public ApiResponse<SentFriendResponse> getSentFriendRequests(@AuthenticationPrincipal User user) {
+        return ApiResponse.success(friendshipService.getSentFriendRequests(UUID.fromString(user.getUsername())));
+    }
 
-//    @Operation(summary = "받은 친구 요청 조회")
-//    @GetMapping("/received-requests")
+//    @Operation(summary = "받은 친구 요청 목록 조회")
+//    @GetMapping("/received")
 //    public ApiResponse getReceivedFriendRequests(@AuthenticationPrincipal User user) {
 //        UUID memberId = UUID.fromString(user.getUsername());
 //        List<Member> receivedRequests = friendshipService.getReceivedFriendRequests(memberId);
@@ -53,7 +52,7 @@ public class FriendshipController {
 //    }
 
 //    @Operation(summary = "친구 목록 조회")
-//    @GetMapping("/friends")
+//    @GetMapping
 //    public ApiResponse getFriends(@AuthenticationPrincipal User user) {
 //        UUID memberId = UUID.fromString(user.getUsername());
 //        List<Member> friends = friendshipService.getFriends(memberId);

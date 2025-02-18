@@ -2,6 +2,9 @@ package chatflow.memberservice.controller;
 
 import chatflow.memberservice.dto.ApiResponse;
 import chatflow.memberservice.dto.member.request.MemberUpdateRequest;
+import chatflow.memberservice.dto.member.response.MemberDeleteResponse;
+import chatflow.memberservice.dto.member.response.MemberInfoResponse;
+import chatflow.memberservice.dto.member.response.MemberUpdateResponse;
 import chatflow.memberservice.security.MemberAuthorize;
 import chatflow.memberservice.service.AdminService;
 import chatflow.memberservice.service.MemberService;
@@ -26,19 +29,19 @@ public class MemberController {
 
     @Operation(summary = "회원 정보 조회")
     @GetMapping
-    public ApiResponse getMemberInfo(@AuthenticationPrincipal User user) {
+    public ApiResponse<MemberInfoResponse> getMemberInfo(@AuthenticationPrincipal User user) {
         return ApiResponse.success(memberService.getMemberInfo(UUID.fromString(user.getUsername())));
     }
 
     @Operation(summary = "회원 탈퇴")
     @DeleteMapping
-    public ApiResponse deleteMember(@AuthenticationPrincipal User user) {
+    public ApiResponse<MemberDeleteResponse> deleteMember(@AuthenticationPrincipal User user) {
         return ApiResponse.success(memberService.deleteMember(UUID.fromString(user.getUsername())));
     }
 
     @Operation(summary = "회원 정보 수정")
     @PutMapping
-    public ApiResponse updateMember(@AuthenticationPrincipal User user, @Valid @RequestBody MemberUpdateRequest request) {
+    public ApiResponse<MemberUpdateResponse> updateMember(@AuthenticationPrincipal User user, @Valid @RequestBody MemberUpdateRequest request) {
         return ApiResponse.success(memberService.updateMember(UUID.fromString(user.getUsername()), request));
     }
 
