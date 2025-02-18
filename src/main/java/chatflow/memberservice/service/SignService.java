@@ -22,7 +22,7 @@ public class SignService {
 
     @Transactional
     public SignUpResponse registMember(SignUpRequest request) {
-        Member member = memberRepository.save(Member.from(request, encoder));
+        Member member = memberRepository.save(Member.create(request, encoder));
         try {
             memberRepository.flush();
         } catch (DataIntegrityViolationException e) {

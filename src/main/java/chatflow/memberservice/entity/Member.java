@@ -42,19 +42,6 @@ public class Member {
     @CreationTimestamp
     private LocalDateTime createdAt;
 
-
-    public static Member from(SignUpRequest request, PasswordEncoder encoder) {
-        return Member.builder()
-                .email(request.email())
-                .password(encoder.encode(request.password()))
-                .nickname(request.nickname())
-                .name(request.name())
-                .birth(LocalDate.parse(request.birth(), DateTimeFormatter.ISO_LOCAL_DATE))
-                .state(MemberState.OFFLINE)
-                .type(MemberType.MEMBER)
-                .build();
-    }
-
     @Builder
     private Member(String email, String password, String nickname, String name, LocalDate birth, MemberState state, MemberType type) {
         this.email = email;
@@ -64,6 +51,18 @@ public class Member {
         this.birth = birth;
         this.state = state;
         this.type = type;
+    }
+
+    public static Member create(SignUpRequest request, PasswordEncoder encoder) {
+        return Member.builder()
+                .email(request.email())
+                .password(encoder.encode(request.password()))
+                .nickname(request.nickname())
+                .name(request.name())
+                .birth(LocalDate.parse(request.birth(), DateTimeFormatter.ISO_LOCAL_DATE))
+                .state(MemberState.OFFLINE)
+                .type(MemberType.MEMBER)
+                .build();
     }
 
     public void update(MemberUpdateRequest newMember, PasswordEncoder encoder) {
