@@ -56,29 +56,34 @@ public class FriendshipService {
     }
 
     @Transactional(readOnly = true)
-    public SentFriendResponse getSentFriendRequests(UUID memberId) {
+    public List<SentFriendResponse> getSentFriendRequests(UUID memberId) {
         List<Friendship> friendships = friendshipRepository.findByToMemberIdAndIsFriendFalse(memberId);
-        List<MemberSimpleResponse> sentFriendRequests = friendships.stream()
-                .map(friendship -> new MemberSimpleResponse(
-                        friendship.getFromMember().getNickname(),
-                        friendship.getFromMember().getName(),
-                        friendship.getFromMember().getCreatedAt()
+        return friendships.stream()
+                .map(friendship -> new SentFriendResponse(
+                        friendship.getCreatedAt(),
+                        new MemberSimpleResponse(
+                                friendship.getFromMember().getNickname(),
+                                friendship.getFromMember().getName(),
+                                friendship.getFromMember().getCreatedAt()
+                        )
                 ))
                 .collect(Collectors.toList());
-        return new SentFriendResponse(sentFriendRequests);
     }
 
     @Transactional(readOnly = true)
-    public ReceivedFriendResponse getReceivedFriendRequests(UUID memberId) {
+    public List<ReceivedFriendResponse> getReceivedFriendRequests(UUID memberId) {
         List<Friendship> friendships = friendshipRepository.findByFromMemberIdAndIsFriendFalse(memberId);
-        List<MemberSimpleResponse> receivedFriendRequests = friendships.stream()
-                .map(friendship -> new MemberSimpleResponse(
-                        friendship.getToMember().getNickname(),
-                        friendship.getToMember().getName(),
-                        friendship.getToMember().getCreatedAt()
+        return friendships.stream()
+                .map(friendship -> new ReceivedFriendResponse(
+                        friendship.getId(),
+                        friendship.getCreatedAt(),
+                        new MemberSimpleResponse(
+                                friendship.getToMember().getNickname(),
+                                friendship.getToMember().getName(),
+                                friendship.getToMember().getCreatedAt()
+                        )
                 ))
                 .collect(Collectors.toList());
-        return new ReceivedFriendResponse(receivedFriendRequests);
     }
 
 //    @Transactional(readOnly = true)

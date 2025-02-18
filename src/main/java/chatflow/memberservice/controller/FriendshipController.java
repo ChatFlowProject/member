@@ -14,6 +14,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @Tag(name = "친구 API (인증 토큰 필요)")
@@ -40,13 +41,13 @@ public class FriendshipController {
 
     @Operation(summary = "보낸 친구 요청 목록 조회")
     @GetMapping("/sent")
-    public ApiResponse<SentFriendResponse> getSentFriendRequests(@AuthenticationPrincipal User user) {
+    public ApiResponse<List<SentFriendResponse>> getSentFriendRequests(@AuthenticationPrincipal User user) {
         return ApiResponse.success(friendshipService.getSentFriendRequests(UUID.fromString(user.getUsername())));
     }
 
     @Operation(summary = "받은 친구 요청 목록 조회")
     @GetMapping("/received")
-    public ApiResponse<ReceivedFriendResponse> getReceivedFriendRequests(@AuthenticationPrincipal User user) {
+    public ApiResponse<List<ReceivedFriendResponse>> getReceivedFriendRequests(@AuthenticationPrincipal User user) {
         return ApiResponse.success(friendshipService.getReceivedFriendRequests(UUID.fromString(user.getUsername())));
     }
 

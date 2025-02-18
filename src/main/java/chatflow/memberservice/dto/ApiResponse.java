@@ -1,9 +1,12 @@
 package chatflow.memberservice.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.http.HttpStatus;
 
 public record ApiResponse<T>(
+        @Schema(description = "response status", example = "200")
         int status,
+        @Schema(description = "response message", example = "any message")
         String message,
         T data
 ) {
