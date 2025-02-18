@@ -21,13 +21,13 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Service
 public class FriendshipService {
+    private final MemberService memberService;
     private final FriendshipRepository friendshipRepository;
     private final MemberRepository memberRepository;
 
     @Transactional
     public void requestFriendship(UUID memberId, FriendshipRequest request) {
-        Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 회원입니다."));
+        Member member = memberService.getMemberById(memberId);
         Member friend = memberRepository.findByNickname(request.friendNickname())
                 .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 친구의 닉네임입니다."));
         try {
@@ -41,8 +41,7 @@ public class FriendshipService {
 
     @Transactional
     public void acceptFriendship(UUID memberId, Long friendshipId) {
-        Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 회원의 닉네임입니다."));
+        Member member = memberService.getMemberById(memberId);
         Friendship friendship = friendshipRepository.findById(friendshipId)
                 .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 친구 요청입니다."));
         if(!friendship.getFromMember().equals(member)) // member 다른 경우
@@ -54,12 +53,13 @@ public class FriendshipService {
 
 //    @Transactional(readOnly = true)
 //    public List<Member> getSentFriendRequests(UUID memberId) {
+//        Member member = memberService.getMemberById(memberId);
 //        return friendshipRepository.findByFromMemberIdAndIsFriendFalse(memberId)
 //                .stream()
 //                .map(Friendship::getToMember)
 //                .collect(Collectors.toList());
 //    }
-//
+
 //    @Transactional(readOnly = true)
 //    public List<Member> getReceivedFriendRequests(UUID memberId) {
 //        return friendshipRepository.findByToMemberIdAndIsFriendFalse(memberId)
@@ -67,7 +67,7 @@ public class FriendshipService {
 //                .map(Friendship::getFromMember)
 //                .collect(Collectors.toList());
 //    }
-//
+
 //    @Transactional(readOnly = true)
 //    public List<Member> getFriends(UUID memberId) {
 //        return friendshipRepository.findFriendsByMemberId(memberId);

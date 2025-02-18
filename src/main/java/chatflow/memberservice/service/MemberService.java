@@ -4,14 +4,15 @@ import chatflow.memberservice.dto.member.request.MemberUpdateRequest;
 import chatflow.memberservice.dto.member.response.MemberDeleteResponse;
 import chatflow.memberservice.dto.member.response.MemberInfoResponse;
 import chatflow.memberservice.dto.member.response.MemberUpdateResponse;
+import chatflow.memberservice.entity.Member;
 import chatflow.memberservice.repository.MemberRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.NoSuchElementException;
 import java.util.UUID;
 
 @Slf4j
@@ -21,11 +22,14 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder encoder;
 
+    public Member getMemberById(UUID id) {
+        return memberRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 회원입니다."));
+    }
+
     @Transactional(readOnly = true)
     public MemberInfoResponse getMemberInfo(UUID id) {
-        return memberRepository.findById(id)
-                .map(MemberInfoResponse::from)
-                .orElseThrow(() -> new NoSuchElementException("존재하지 않는 회원입니다."));
+        return MemberInfoResponse.from(getMemberById(id));
     }
 
     @Transactional
