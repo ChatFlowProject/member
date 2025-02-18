@@ -16,7 +16,7 @@ public class CommonController {
 
     @GetMapping("/health-check")
     public String status() {
-        return String.format("Working in Member Service on PORT %s",
-                env.getProperty("local.server.port"));
+        return String.format("Working in Member Service %s",
+                env.getProperty("tag.version"));
     }
 }
