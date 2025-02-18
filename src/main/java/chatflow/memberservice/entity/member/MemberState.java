@@ -1,4 +1,4 @@
-package chatflow.memberservice.entity;
+package chatflow.memberservice.entity.member;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

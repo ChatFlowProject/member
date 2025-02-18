@@ -1,6 +1,5 @@
-package chatflow.memberservice.entity;
+package chatflow.memberservice.entity.member;
 
-import chatflow.memberservice.common.MemberType;
 import chatflow.memberservice.dto.member.request.MemberUpdateRequest;
 import chatflow.memberservice.dto.sign_up.SignUpRequest;
 import jakarta.persistence.*;

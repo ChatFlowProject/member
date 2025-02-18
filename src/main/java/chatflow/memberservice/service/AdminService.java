@@ -1,6 +1,6 @@
 package chatflow.memberservice.service;
 
-import chatflow.memberservice.common.MemberType;
+import chatflow.memberservice.entity.member.MemberType;
 import chatflow.memberservice.dto.member.response.MemberInfoResponse;
 import chatflow.memberservice.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;

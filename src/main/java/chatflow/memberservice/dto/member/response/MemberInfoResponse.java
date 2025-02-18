@@ -1,7 +1,7 @@
 package chatflow.memberservice.dto.member.response;
 
-import chatflow.memberservice.common.MemberType;
-import chatflow.memberservice.entity.Member;
+import chatflow.memberservice.entity.member.MemberType;
+import chatflow.memberservice.entity.member.Member;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.time.LocalDateTime;

@@ -1,5 +1,6 @@
-package chatflow.memberservice.entity;
+package chatflow.memberservice.entity.friendship;
 
+import chatflow.memberservice.entity.member.Member;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;

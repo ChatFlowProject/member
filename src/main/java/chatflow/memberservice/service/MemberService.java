@@ -4,7 +4,7 @@ import chatflow.memberservice.dto.member.request.MemberUpdateRequest;
 import chatflow.memberservice.dto.member.response.MemberDeleteResponse;
 import chatflow.memberservice.dto.member.response.MemberInfoResponse;
 import chatflow.memberservice.dto.member.response.MemberUpdateResponse;
-import chatflow.memberservice.entity.Member;
+import chatflow.memberservice.entity.member.Member;
 import chatflow.memberservice.repository.MemberRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;

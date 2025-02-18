@@ -1,6 +1,6 @@
 package chatflow.memberservice.dto.member.response;
 
-import chatflow.memberservice.entity.Member;
+import chatflow.memberservice.entity.member.Member;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 public record MemberUpdateResponse(

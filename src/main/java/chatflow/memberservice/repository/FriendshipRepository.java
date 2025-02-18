@@ -1,9 +1,8 @@
 package chatflow.memberservice.repository;
 
-import chatflow.memberservice.entity.Friendship;
-import chatflow.memberservice.entity.Member;
+import chatflow.memberservice.entity.friendship.Friendship;
+import chatflow.memberservice.entity.member.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 import java.util.Optional;
