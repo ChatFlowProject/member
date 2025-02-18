@@ -12,6 +12,10 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -21,9 +25,9 @@ public class FriendshipService {
     private final MemberRepository memberRepository;
 
     @Transactional
-    public void requestFriendship(FriendshipRequest request) {
-        Member member = memberRepository.findByNickname(request.memberNickname())
-                .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 회원의 닉네임입니다."));
+    public void requestFriendship(UUID memberId, FriendshipRequest request) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 회원입니다."));
         Member friend = memberRepository.findByNickname(request.friendNickname())
                 .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 친구의 닉네임입니다."));
         try {
@@ -36,12 +40,36 @@ public class FriendshipService {
     }
 
     @Transactional
-    public void acceptFriendship(Long friendshipId) {
+    public void acceptFriendship(UUID memberId, Long friendshipId) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 회원의 닉네임입니다."));
         Friendship friendship = friendshipRepository.findById(friendshipId)
                 .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 친구 요청입니다."));
+        if(!friendship.getFromMember().equals(member)) // member 다른 경우
+            throw new IllegalArgumentException("잘못된 친구 요청 수락입니다.");
         if(friendship.isFriend())
-            throw new IllegalArgumentException("이미 수락된 친구요청입니다.");
+            throw new IllegalArgumentException("이미 수락된 친구 요청입니다.");
         friendship.acceptFriendship();
     }
 
+//    @Transactional(readOnly = true)
+//    public List<Member> getSentFriendRequests(UUID memberId) {
+//        return friendshipRepository.findByFromMemberIdAndIsFriendFalse(memberId)
+//                .stream()
+//                .map(Friendship::getToMember)
+//                .collect(Collectors.toList());
+//    }
+//
+//    @Transactional(readOnly = true)
+//    public List<Member> getReceivedFriendRequests(UUID memberId) {
+//        return friendshipRepository.findByToMemberIdAndIsFriendFalse(memberId)
+//                .stream()
+//                .map(Friendship::getFromMember)
+//                .collect(Collectors.toList());
+//    }
+//
+//    @Transactional(readOnly = true)
+//    public List<Member> getFriends(UUID memberId) {
+//        return friendshipRepository.findFriendsByMemberId(memberId);
+//    }
 }
