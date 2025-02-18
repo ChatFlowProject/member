@@ -1,4 +1,4 @@
-package chatflow.memberservice.dto.sign_in.response;
+package chatflow.memberservice.dto.sign_in;
 
 import chatflow.memberservice.common.MemberType;
 import io.swagger.v3.oas.annotations.media.Schema;

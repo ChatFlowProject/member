@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
-@Tag(name = "로그인 후 사용할 수 있는 API")
+@Tag(name = "회원 API (인증 토큰 필요)")
 @RequiredArgsConstructor
 @MemberAuthorize
 @RestController

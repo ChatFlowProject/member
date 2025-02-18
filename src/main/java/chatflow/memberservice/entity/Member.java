@@ -2,7 +2,7 @@ package chatflow.memberservice.entity;
 
 import chatflow.memberservice.common.MemberType;
 import chatflow.memberservice.dto.member.request.MemberUpdateRequest;
-import chatflow.memberservice.dto.sign_up.request.SignUpRequest;
+import chatflow.memberservice.dto.sign_up.SignUpRequest;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;

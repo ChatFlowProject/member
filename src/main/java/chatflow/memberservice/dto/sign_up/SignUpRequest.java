@@ -1,4 +1,4 @@
-package chatflow.memberservice.dto.sign_up.request;
+package chatflow.memberservice.dto.sign_up;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;

@@ -1,8 +1,8 @@
 package chatflow.memberservice.controller;
 
 import chatflow.memberservice.dto.ApiResponse;
-import chatflow.memberservice.dto.sign_in.request.SignInRequest;
-import chatflow.memberservice.dto.sign_up.request.SignUpRequest;
+import chatflow.memberservice.dto.sign_in.SignInRequest;
+import chatflow.memberservice.dto.sign_up.SignUpRequest;
 import chatflow.memberservice.service.SignService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@Tag(name = "회원 가입 및 로그인")
+@Tag(name = "회원 가입 및 로그인 API")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping
