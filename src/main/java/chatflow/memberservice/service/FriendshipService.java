@@ -12,10 +12,6 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -33,42 +29,19 @@ public class FriendshipService {
         try {
             friendshipRepository.save(Friendship.request(member, friend, true));
             friendshipRepository.save(Friendship.request(friend, member, false));
-            friendshipRepository.flush();
         } catch (DataIntegrityViolationException e) {
             if (e.getMessage().contains("friendship.uk_friendship_from_to"))
                 throw new IllegalArgumentException("이미 생성된 친구관계입니다.");
-//            if(e.getMessage().contains(request.friendNickname()))
-//                throw new IllegalArgumentException("이미 생성된 친구관계입니다.");
         }
     }
 
-    public List<Friendship> getAllFriendships(UUID memberId) {
-        Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new EntityNotFoundException("Member not found"));
-        return friendshipRepository.findByFromMemberOrToMember(member, member);
+    @Transactional
+    public void acceptFriendship(Long friendshipId) {
+        Friendship friendship = friendshipRepository.findById(friendshipId)
+                .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 친구 요청입니다."));
+        if(friendship.isFriend())
+            throw new IllegalArgumentException("이미 수락된 친구요청입니다.");
+        friendship.acceptFriendship();
     }
 
-    public List<Friendship> getAcceptedFriendships(UUID memberId) {
-        Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new EntityNotFoundException("Member not found"));
-        List<Friendship> fromFriendships = friendshipRepository.findByFromMemberAndIsFriendTrue(member);
-        List<Friendship> toFriendships = friendshipRepository.findByToMemberAndIsFriendTrue(member);
-
-        List<Friendship> allFriendships = new ArrayList<>();
-        allFriendships.addAll(fromFriendships);
-        allFriendships.addAll(toFriendships);
-        return allFriendships;
-    }
-
-    public List<Member> getFriendList(UUID memberId) {
-        List<Friendship> friendships = getAcceptedFriendships(memberId);
-        Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new EntityNotFoundException("Member not found"));
-
-        return friendships.stream()
-                .map(friendship -> friendship.getFromMember().equals(member)
-                        ? friendship.getToMember()
-                        : friendship.getFromMember())
-                .collect(Collectors.toList());
-    }
 }
