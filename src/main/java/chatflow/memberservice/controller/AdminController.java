@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @AdminAuthorize
 @RestController
-@RequestMapping("/admin")
+@RequestMapping("/admins")
 public class AdminController {
     private final AdminService adminService;
 
@@ -25,7 +25,7 @@ public class AdminController {
     }
 
     @Operation(summary = "관리자 목록 조회")
-    @GetMapping("/admins")
+    @GetMapping
     public ApiResponse getAllAdmins() {
         return ApiResponse.success(adminService.getAdmins());
     }
