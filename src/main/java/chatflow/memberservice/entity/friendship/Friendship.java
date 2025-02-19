@@ -61,5 +61,6 @@ public class Friendship {
 
     public void acceptFriendship() {
         this.isFriend = true;
+        this.createdAt = LocalDateTime.now();
     }
 }

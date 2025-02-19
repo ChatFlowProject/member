@@ -1,8 +1,7 @@
 package chatflow.memberservice.service;
 
 import chatflow.memberservice.dto.friendship.request.FriendshipRequest;
-import chatflow.memberservice.dto.friendship.response.FriendshipReceivedResponse;
-import chatflow.memberservice.dto.friendship.response.FriendshipSentResponse;
+import chatflow.memberservice.dto.friendship.response.FriendshipInfoResponse;
 import chatflow.memberservice.dto.member.response.MemberSimpleResponse;
 import chatflow.memberservice.entity.friendship.Friendship;
 import chatflow.memberservice.entity.member.Member;
@@ -57,14 +56,14 @@ public class FriendshipService {
             throw new IllegalArgumentException("잘못된 친구 요청 수락입니다.");
         if (friendship.isFriend())
             throw new IllegalArgumentException("이미 수락된 친구 요청입니다.");
-        friendship.acceptFriendship();
+        friendship.acceptFriendship(); // 수락시 역방향 데이터의 createdAt만 변경
     }
 
     @Transactional(readOnly = true)
-    public List<FriendshipSentResponse> getSentFriendRequests(UUID memberId) {
+    public List<FriendshipInfoResponse> getSentFriendRequests(UUID memberId) {
         List<Friendship> friendships = friendshipRepository.findByToMemberIdAndIsFriendFalse(memberId);
         return friendships.stream()
-                .map(friendship -> new FriendshipSentResponse(
+                .map(friendship -> new FriendshipInfoResponse(
                         friendship.getId(), // 역방향 데이터 friendshipId (false 데이터)
                         friendship.getCreatedAt(),
                         new MemberSimpleResponse(
@@ -77,10 +76,26 @@ public class FriendshipService {
     }
 
     @Transactional(readOnly = true)
-    public List<FriendshipReceivedResponse> getReceivedFriendRequests(UUID memberId) {
+    public List<FriendshipInfoResponse> getReceivedFriendRequests(UUID memberId) {
         List<Friendship> friendships = friendshipRepository.findByFromMemberIdAndIsFriendFalse(memberId);
         return friendships.stream()
-                .map(friendship -> new FriendshipReceivedResponse(
+                .map(friendship -> new FriendshipInfoResponse(
+                        friendship.getId(), // 역방향 데이터 friendshipId (false 데이터)
+                        friendship.getCreatedAt(),
+                        new MemberSimpleResponse(
+                                friendship.getToMember().getNickname(),
+                                friendship.getToMember().getName(),
+                                friendship.getToMember().getCreatedAt()
+                        )
+                ))
+                .collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public List<FriendshipInfoResponse> getAllFriends(UUID memberId) {
+        List<Friendship> friendships = friendshipRepository.findFriendsByMemberId(memberId);
+        return friendships.stream()
+                .map(friendship -> new FriendshipInfoResponse(
                         friendship.getId(), // 역방향 데이터 friendshipId (false 데이터)
                         friendship.getCreatedAt(),
                         new MemberSimpleResponse(
@@ -116,16 +131,17 @@ public class FriendshipService {
         friendshipRepository.delete(sentFriendship);
     }
 
-//    @Transactional(readOnly = true)
-//    public List<Member> getReceivedFriendRequests(UUID memberId) {
-//        return friendshipRepository.findByToMemberIdAndIsFriendFalse(memberId)
-//                .stream()
-//                .map(Friendship::getFromMember)
-//                .collect(Collectors.toList());
-//    }
-
-//    @Transactional(readOnly = true)
-//    public List<Member> getFriends(UUID memberId) {
-//        return friendshipRepository.findFriendsByMemberId(memberId);
-//    }
+    @Transactional
+    public void deleteFriendship(UUID memberId, Long friendshipId) {
+        Friendship friendship = friendshipRepository.findById(friendshipId)
+                .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 친구 관계입니다."));
+        if(!friendship.getFromMember().getId().equals(memberId) && !friendship.getToMember().getId().equals(memberId))
+            throw new IllegalArgumentException("잘못된 친구 삭제 요청입니다.");
+        Friendship rvsFriendship = friendshipRepository.findByFromMemberIdAndToMemberId(friendship.getToMember().getId(), friendship.getFromMember().getId())
+                .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 친구 관계입니다."));
+        if (!friendship.isFriend() || !rvsFriendship.isFriend())
+            throw new IllegalArgumentException("친구 요청 수락 대기중인 친구 관계입니다.");
+        friendshipRepository.delete(friendship);
+        friendshipRepository.delete(rvsFriendship);
+    }
 }
