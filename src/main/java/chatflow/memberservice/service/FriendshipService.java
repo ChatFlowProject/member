@@ -1,8 +1,8 @@
 package chatflow.memberservice.service;
 
 import chatflow.memberservice.dto.friendship.request.FriendshipRequest;
-import chatflow.memberservice.dto.friendship.response.ReceivedFriendResponse;
-import chatflow.memberservice.dto.friendship.response.SentFriendResponse;
+import chatflow.memberservice.dto.friendship.response.FriendshipReceivedResponse;
+import chatflow.memberservice.dto.friendship.response.FriendshipSentResponse;
 import chatflow.memberservice.dto.member.response.MemberSimpleResponse;
 import chatflow.memberservice.entity.friendship.Friendship;
 import chatflow.memberservice.entity.member.Member;
@@ -61,10 +61,10 @@ public class FriendshipService {
     }
 
     @Transactional(readOnly = true)
-    public List<SentFriendResponse> getSentFriendRequests(UUID memberId) {
+    public List<FriendshipSentResponse> getSentFriendRequests(UUID memberId) {
         List<Friendship> friendships = friendshipRepository.findByToMemberIdAndIsFriendFalse(memberId);
         return friendships.stream()
-                .map(friendship -> new SentFriendResponse(
+                .map(friendship -> new FriendshipSentResponse(
                         friendship.getId(), // 역방향 데이터 friendshipId (false 데이터)
                         friendship.getCreatedAt(),
                         new MemberSimpleResponse(
@@ -77,10 +77,10 @@ public class FriendshipService {
     }
 
     @Transactional(readOnly = true)
-    public List<ReceivedFriendResponse> getReceivedFriendRequests(UUID memberId) {
+    public List<FriendshipReceivedResponse> getReceivedFriendRequests(UUID memberId) {
         List<Friendship> friendships = friendshipRepository.findByFromMemberIdAndIsFriendFalse(memberId);
         return friendships.stream()
-                .map(friendship -> new ReceivedFriendResponse(
+                .map(friendship -> new FriendshipReceivedResponse(
                         friendship.getId(), // 역방향 데이터 friendshipId (false 데이터)
                         friendship.getCreatedAt(),
                         new MemberSimpleResponse(

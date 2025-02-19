@@ -2,8 +2,8 @@ package chatflow.memberservice.controller;
 
 import chatflow.memberservice.dto.ApiResponse;
 import chatflow.memberservice.dto.friendship.request.FriendshipRequest;
-import chatflow.memberservice.dto.friendship.response.ReceivedFriendResponse;
-import chatflow.memberservice.dto.friendship.response.SentFriendResponse;
+import chatflow.memberservice.dto.friendship.response.FriendshipReceivedResponse;
+import chatflow.memberservice.dto.friendship.response.FriendshipSentResponse;
 import chatflow.memberservice.security.MemberAuthorize;
 import chatflow.memberservice.service.FriendshipService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -34,13 +34,13 @@ public class FriendshipController {
 
     @Operation(summary = "보낸 친구 요청 목록 조회")
     @GetMapping("/sent")
-    public ApiResponse<List<SentFriendResponse>> getSentFriendRequests(@AuthenticationPrincipal User user) {
+    public ApiResponse<List<FriendshipSentResponse>> getSentFriendRequests(@AuthenticationPrincipal User user) {
         return ApiResponse.success(friendshipService.getSentFriendRequests(UUID.fromString(user.getUsername())));
     }
 
     @Operation(summary = "받은 친구 요청 목록 조회")
     @GetMapping("/received")
-    public ApiResponse<List<ReceivedFriendResponse>> getReceivedFriendRequests(@AuthenticationPrincipal User user) {
+    public ApiResponse<List<FriendshipReceivedResponse>> getReceivedFriendRequests(@AuthenticationPrincipal User user) {
         return ApiResponse.success(friendshipService.getReceivedFriendRequests(UUID.fromString(user.getUsername())));
     }
 

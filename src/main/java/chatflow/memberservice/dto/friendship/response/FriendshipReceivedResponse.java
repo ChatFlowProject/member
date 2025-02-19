@@ -7,7 +7,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import java.time.LocalDateTime;
 
 
-public record ReceivedFriendResponse(
+public record FriendshipReceivedResponse(
         @Schema(description = "받은 친구 요청 id, 친구 수락/거절시 사용", example = "8")
         Long receivedFriendshipId,
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Asia/Seoul")
