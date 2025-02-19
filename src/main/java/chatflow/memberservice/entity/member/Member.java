@@ -70,4 +70,8 @@ public class Member {
         this.name = newMember.name();
         this.birth = LocalDate.parse(newMember.birth(), DateTimeFormatter.ISO_LOCAL_DATE);
     }
+
+    public MemberState modifyState(MemberState state) {
+        return this.state = state;
+    }
 }

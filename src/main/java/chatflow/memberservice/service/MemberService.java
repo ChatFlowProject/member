@@ -1,10 +1,13 @@
 package chatflow.memberservice.service;
 
+import chatflow.memberservice.dto.member.request.MemberModifyStateRequest;
 import chatflow.memberservice.dto.member.request.MemberUpdateRequest;
 import chatflow.memberservice.dto.member.response.MemberDeleteResponse;
 import chatflow.memberservice.dto.member.response.MemberInfoResponse;
+import chatflow.memberservice.dto.member.response.MemberModifyStateResponse;
 import chatflow.memberservice.dto.member.response.MemberUpdateResponse;
 import chatflow.memberservice.entity.member.Member;
+import chatflow.memberservice.entity.member.MemberState;
 import chatflow.memberservice.repository.MemberRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -49,5 +52,10 @@ public class MemberService {
                     return MemberUpdateResponse.of(true, member);
                 })
                 .orElseThrow(() -> new IllegalArgumentException("아이디 또는 비밀번호가 일치하지 않습니다."));
+    }
+
+    @Transactional
+    public MemberModifyStateResponse modifyMemberState(UUID id, MemberModifyStateRequest request) {
+        return new MemberModifyStateResponse(getMemberById(id).modifyState(MemberState.of(request.memberState())).toString());
     }
 }
