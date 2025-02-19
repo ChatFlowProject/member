@@ -43,10 +43,16 @@ public class FriendshipController {
         return ApiResponse.success(friendshipService.getReceivedFriendRequests(UUID.fromString(user.getUsername())));
     }
 
-    @Operation(summary = "친구 목록 조회")
+    @Operation(summary = "친구 전체 목록 조회")
     @GetMapping
-    public ApiResponse<List<FriendshipInfoResponse>> getFriends(@AuthenticationPrincipal User user) {
+    public ApiResponse<List<FriendshipInfoResponse>> getAllFriends(@AuthenticationPrincipal User user) {
         return ApiResponse.success(friendshipService.getAllFriends(UUID.fromString(user.getUsername())));
+    }
+
+    @Operation(summary = "온라인 친구 목록 조회")
+    @GetMapping("/online")
+    public ApiResponse<List<FriendshipInfoResponse>> getOnlineFriends(@AuthenticationPrincipal User user) {
+        return ApiResponse.success(friendshipService.getOnlineFriends(UUID.fromString(user.getUsername())));
     }
 
     @Operation(summary = "친구 요청 수락")
