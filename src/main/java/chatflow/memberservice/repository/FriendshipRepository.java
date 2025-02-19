@@ -1,7 +1,6 @@
 package chatflow.memberservice.repository;
 
 import chatflow.memberservice.entity.friendship.Friendship;
-import chatflow.memberservice.entity.member.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -9,7 +8,9 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface FriendshipRepository extends JpaRepository<Friendship,Long> {
-    Optional<Friendship> findByFromMemberAndToMember(Member fromMember, Member toMember);
+    Optional<Friendship> findByFromMemberIdAndToMemberId(UUID fromMemberId, UUID toMemberId);
+    Optional<Friendship> findByIdAndFromMemberId(Long id, UUID fromMemberId);
+    Optional<Friendship> findByIdAndToMemberId(Long id, UUID toMemberId);
     List<Friendship> findByFromMemberIdAndIsFriendFalse(UUID fromMemberId);
     List<Friendship> findByToMemberIdAndIsFriendFalse(UUID toMemberId);
 

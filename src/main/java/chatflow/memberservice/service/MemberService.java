@@ -22,6 +22,7 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder encoder;
 
+    @Transactional(readOnly = true) // 해당 메소드를 사용하는 다른 메소드에 쓰기가능한 Transaction이 있다면, 쓰기 가능한 Transaction으로 오버라이딩됨
     public Member getMemberById(UUID id) {
         return memberRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 회원입니다."));

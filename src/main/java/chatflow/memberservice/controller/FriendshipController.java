@@ -27,15 +27,8 @@ public class FriendshipController {
 
     @Operation(summary = "친구 요청")
     @PostMapping
-    public ApiResponse requestFriendship(@AuthenticationPrincipal User user, @Valid @RequestBody FriendshipRequest request) {
+    public ApiResponse<Long> requestFriendship(@AuthenticationPrincipal User user, @Valid @RequestBody FriendshipRequest request) {
         friendshipService.requestFriendship(UUID.fromString(user.getUsername()), request);
-        return ApiResponse.success();
-    }
-
-    @Operation(summary = "친구 수락")
-    @PatchMapping("/{friendshipId}")
-    public ApiResponse acceptFriendship(@AuthenticationPrincipal User user, @PathVariable("friendshipId") Long friendshipId) {
-        friendshipService.acceptFriendship(UUID.fromString(user.getUsername()), friendshipId);
         return ApiResponse.success();
     }
 
@@ -51,6 +44,27 @@ public class FriendshipController {
         return ApiResponse.success(friendshipService.getReceivedFriendRequests(UUID.fromString(user.getUsername())));
     }
 
+    @Operation(summary = "친구 요청 수락")
+    @PatchMapping("/{friendshipId}")
+    public ApiResponse acceptFriendship(@AuthenticationPrincipal User user, @PathVariable("friendshipId") Long friendshipId) {
+        friendshipService.acceptFriendship(UUID.fromString(user.getUsername()), friendshipId);
+        return ApiResponse.success();
+    }
+
+    @Operation(summary = "친구 요청 거절")
+    @DeleteMapping("/{friendshipId}/refuse")
+    public ApiResponse refuseFriendship(@AuthenticationPrincipal User user, @PathVariable("friendshipId") Long friendshipId) {
+        friendshipService.refuseFriendship(UUID.fromString(user.getUsername()), friendshipId);
+        return ApiResponse.success();
+    }
+
+    @Operation(summary = "친구 요청 취소")
+    @DeleteMapping("/{friendshipId}/cancel")
+    public ApiResponse cancelFriendship(@AuthenticationPrincipal User user, @PathVariable("friendshipId") Long friendshipId) {
+        friendshipService.cancelFriendship(UUID.fromString(user.getUsername()), friendshipId);
+        return ApiResponse.success();
+    }
+
 //    @Operation(summary = "친구 목록 조회")
 //    @GetMapping
 //    public ApiResponse getFriends(@AuthenticationPrincipal User user) {
@@ -59,6 +73,6 @@ public class FriendshipController {
 //        return ApiResponse.success(friends.stream().map(MemberResponse::from).collect(Collectors.toList()));
 //    }
 
-//    @Operation(summary = "친구 요청 거절")
-//    @Operation(summary = "친구 요청 취소")
+//    @Operation(summary = "친구 삭제")
+
 }

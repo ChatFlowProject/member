@@ -14,6 +14,10 @@ public record ApiResponse<T>(
         return new ApiResponse<>(HttpStatus.OK.value(), null, null);
     }
 
+    public static <T> ApiResponse<T> success(String message) {
+        return new ApiResponse<>(HttpStatus.OK.value(), message, null);
+    }
+
     public static <T> ApiResponse<T> success(T data) {
         return new ApiResponse<>(HttpStatus.OK.value(), null, data);
     }

@@ -37,7 +37,7 @@ springdoc:
     path: /
     display-request-duration: true
     groups-order: desc
-    operations-sorter: alpha
+    operations-sorter: default
     disable-swagger-default-url: true
   api-docs:
     groups:
