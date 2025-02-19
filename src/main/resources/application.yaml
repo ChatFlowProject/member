@@ -12,22 +12,11 @@ spring:
   jpa:
     database: mysql
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
     show-sql: true
     properties:
       hibernate.format_sql: true
       dialect: org.hibernate.dialect.MySQL8InnoDBDialect
-
-#eureka:
-#  instance:
-#    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
-#    lease-renewal-interval-in-seconds: 2
-#    lease-expiration-duration-in-seconds: 4
-#  client:
-#    register-with-eureka: true
-#    fetch-registry: true
-#    service-url:
-#      defaultZone: http://flowchat.shop:30001/eureka
 
 springdoc:
   default-consumes-media-type: application/json;charset=UTF-8
@@ -37,7 +26,7 @@ springdoc:
     path: /
     display-request-duration: true
     groups-order: desc
-    operations-sorter: default
+    operations-sorter: method
     disable-swagger-default-url: true
   api-docs:
     groups:
