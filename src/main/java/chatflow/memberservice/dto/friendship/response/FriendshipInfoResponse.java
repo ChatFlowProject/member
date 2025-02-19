@@ -1,4 +1,4 @@
-package chatflow.memberservice.dto.friendship;
+package chatflow.memberservice.dto.friendship.response;
 
 import chatflow.memberservice.dto.member.response.MemberInfoResponse;
 
