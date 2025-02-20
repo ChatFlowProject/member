@@ -15,6 +15,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -41,8 +42,10 @@ public class FriendshipService {
         Member friend = memberRepository.findByNickname(request.friendNickname())
                 .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 친구의 닉네임입니다."));
         try {
-            friendshipRepository.save(Friendship.request(member, friend, true));
-            friendshipRepository.save(Friendship.request(friend, member, false));
+            List<Friendship> friendships = Arrays.asList(
+                    Friendship.request(member, friend, true),
+                    Friendship.request(friend, member, false));
+            friendshipRepository.saveAll(friendships);
         } catch (DataIntegrityViolationException e) {
             if (e.getMessage().contains("friendship.uk_friendship_from_to"))
                 throw new IllegalArgumentException("이미 친구 요청한 회원입니다.");
@@ -133,8 +136,7 @@ public class FriendshipService {
             throw new IllegalArgumentException("이미 수락한 친구 요청입니다.");
         Friendship sentFriendship = friendshipRepository.findByFromMemberIdAndToMemberId(receivedFriendship.getToMember().getId(), memberId)
                 .orElseThrow(() -> new EntityNotFoundException("친구 요청을 찾을 수 없습니다."));
-        friendshipRepository.delete(receivedFriendship);
-        friendshipRepository.delete(sentFriendship);
+        friendshipRepository.deleteAllInBatch(Arrays.asList(receivedFriendship, sentFriendship));
     }
 
     @Transactional
@@ -145,8 +147,7 @@ public class FriendshipService {
             throw new IllegalArgumentException("이미 수락된 친구 요청입니다.");
         Friendship sentFriendship = friendshipRepository.findByFromMemberIdAndToMemberId(memberId, receivedFriendship.getFromMember().getId())
                 .orElseThrow(() -> new EntityNotFoundException("친구 요청을 찾을 수 없습니다."));
-        friendshipRepository.delete(receivedFriendship);
-        friendshipRepository.delete(sentFriendship);
+        friendshipRepository.deleteAllInBatch(Arrays.asList(receivedFriendship, sentFriendship));
     }
 
     @Transactional
@@ -159,7 +160,6 @@ public class FriendshipService {
                 .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 친구 관계입니다."));
         if (!friendship.isFriend() || !rvsFriendship.isFriend())
             throw new IllegalArgumentException("친구 요청 수락 대기중인 친구 관계입니다.");
-        friendshipRepository.delete(friendship);
-        friendshipRepository.delete(rvsFriendship);
+        friendshipRepository.deleteAllInBatch(Arrays.asList(friendship, rvsFriendship));
     }
 }
