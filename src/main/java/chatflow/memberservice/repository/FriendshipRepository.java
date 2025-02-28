@@ -10,11 +10,16 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface FriendshipRepository extends JpaRepository<Friendship,Long> {
-    Optional<Friendship> findByFromMemberIdAndToMemberId(UUID fromMemberId, UUID toMemberId);
-    Optional<Friendship> findByIdAndFromMemberId(Long id, UUID fromMemberId);
-    Optional<Friendship> findByIdAndToMemberId(Long id, UUID toMemberId);
-    List<Friendship> findByFromMemberIdAndIsFriendFalse(UUID fromMemberId);
-    List<Friendship> findByToMemberIdAndIsFriendFalse(UUID toMemberId);
+    @Query("SELECT f FROM Friendship f JOIN FETCH f.fromMember JOIN FETCH f.toMember WHERE f.fromMember.id = :fromMemberId AND f.toMember.id = :toMemberId")
+    Optional<Friendship> findByFromMemberIdAndToMemberId(@Param("fromMemberId") UUID fromMemberId, @Param("toMemberId") UUID toMemberId);
+    @Query("SELECT f FROM Friendship f JOIN FETCH f.fromMember JOIN FETCH f.toMember WHERE f.id = :id AND f.fromMember.id = :fromMemberId")
+    Optional<Friendship> findByIdAndFromMemberId(@Param("id") Long id, @Param("fromMemberId") UUID fromMemberId);
+    @Query("SELECT f FROM Friendship f JOIN FETCH f.fromMember JOIN FETCH f.toMember WHERE f.id = :id AND f.toMember.id = :toMemberId")
+    Optional<Friendship> findByIdAndToMemberId(@Param("id") Long id, @Param("toMemberId") UUID toMemberId);
+    @Query("SELECT f FROM Friendship f JOIN FETCH f.fromMember JOIN FETCH f.toMember WHERE f.fromMember.id = :fromMemberId AND f.isFriend = false")
+    List<Friendship> findByFromMemberIdAndIsFriendFalse(@Param("fromMemberId") UUID fromMemberId);
+    @Query("SELECT f FROM Friendship f JOIN FETCH f.fromMember JOIN FETCH f.toMember WHERE f.toMember.id = :toMemberId AND f.isFriend = false")
+    List<Friendship> findByToMemberIdAndIsFriendFalse(@Param("toMemberId") UUID toMemberId);
 
     @Query("SELECT f FROM Friendship f " +
             "JOIN Friendship sf ON f.toMember = sf.fromMember " +
