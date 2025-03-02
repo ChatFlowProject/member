@@ -6,7 +6,7 @@ spring:
     name: member-service
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://34.64.47.229:3306/mysql8?useSSL=false&serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    url: jdbc:mysql://34.64.47.229:3306/mysql8?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=Asia/Seoul&characterEncoding=UTF-8
     username: test
     password: 1234
   jpa:
