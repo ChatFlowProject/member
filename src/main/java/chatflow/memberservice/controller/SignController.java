@@ -2,7 +2,9 @@ package chatflow.memberservice.controller;
 
 import chatflow.memberservice.dto.ApiResponse;
 import chatflow.memberservice.dto.sign_in.SignInRequest;
+import chatflow.memberservice.dto.sign_in.SignInResponse;
 import chatflow.memberservice.dto.sign_up.SignUpRequest;
+import chatflow.memberservice.dto.sign_up.SignUpResponse;
 import chatflow.memberservice.service.SignService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -22,13 +24,13 @@ public class SignController {
 
     @Operation(summary = "회원 가입")
     @PostMapping("/sign-up")
-    public ApiResponse signUp(@Valid @RequestBody SignUpRequest request) {
+    public ApiResponse<SignUpResponse> signUp(@Valid @RequestBody SignUpRequest request) {
         return ApiResponse.success(signService.registMember(request));
     }
 
     @Operation(summary = "로그인")
     @PostMapping("/sign-in")
-    public ApiResponse signIn(@Valid @RequestBody SignInRequest request) {
+    public ApiResponse<SignInResponse> signIn(@Valid @RequestBody SignInRequest request) {
         return ApiResponse.success(signService.signIn(request));
     }
 }

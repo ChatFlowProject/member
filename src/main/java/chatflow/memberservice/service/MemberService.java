@@ -2,10 +2,7 @@ package chatflow.memberservice.service;
 
 import chatflow.memberservice.dto.member.request.MemberModifyStateRequest;
 import chatflow.memberservice.dto.member.request.MemberUpdateRequest;
-import chatflow.memberservice.dto.member.response.MemberDeleteResponse;
-import chatflow.memberservice.dto.member.response.MemberInfoResponse;
-import chatflow.memberservice.dto.member.response.MemberModifyStateResponse;
-import chatflow.memberservice.dto.member.response.MemberUpdateResponse;
+import chatflow.memberservice.dto.member.response.*;
 import chatflow.memberservice.entity.member.Member;
 import chatflow.memberservice.entity.member.MemberState;
 import chatflow.memberservice.repository.MemberRepository;
@@ -34,6 +31,11 @@ public class MemberService {
     @Transactional(readOnly = true)
     public MemberInfoResponse getMemberInfo(UUID id) {
         return MemberInfoResponse.from(getMemberById(id));
+    }
+
+    @Transactional(readOnly = true)
+    public MemberSimpleResponse getMemberSimpleInfo(UUID id) {
+        return MemberSimpleResponse.from(getMemberById(id));
     }
 
     @Transactional

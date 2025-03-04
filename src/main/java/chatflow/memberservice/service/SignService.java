@@ -26,9 +26,9 @@ public class SignService {
         try {
             memberRepository.flush();
         } catch (DataIntegrityViolationException e) {
-            if(e.getMessage().contains(request.email()))
+            if (e.getMessage().contains(request.email()))
                 throw new IllegalArgumentException("이미 사용중인 이메일입니다.");
-            if(e.getMessage().contains(request.nickname()))
+            if (e.getMessage().contains(request.nickname()))
                 throw new IllegalArgumentException("이미 사용중인 닉네임입니다.");
         }
         return SignUpResponse.from(member);
@@ -40,6 +40,6 @@ public class SignService {
                 .filter(it -> encoder.matches(request.password(), it.getPassword()))
                 .orElseThrow(() -> new IllegalArgumentException("아이디 또는 비밀번호가 일치하지 않습니다."));
         String token = tokenProvider.createToken(String.format("%s:%s", member.getId(), member.getType()));
-        return new SignInResponse(member.getName(), member.getType(), token);
+        return new SignInResponse(member.getId(), member.getName(), member.getType(), token);
     }
 }
