@@ -1,18 +1,16 @@
 server:
-  port: 8081
+  port: 8080
 
 spring:
-  application:
-    name: member-service
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://34.64.47.229:3306/mysql8?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=Asia/Seoul&characterEncoding=UTF-8
-    username: test
-    password: 1234
+    url: ${datasource_url}
+    username: ${datasource_username}
+    password: ${datasource_password}
   jpa:
     database: mysql
     hibernate:
-      ddl-auto: none
+      ddl-auto: update
     show-sql: true
     properties:
       hibernate.format_sql: true
@@ -32,9 +30,5 @@ springdoc:
     groups:
       enabled: true
 
-logging:
-  level:
-    chatflow.memberservice.service: INFO
-
 tag:
-  version: 1.2.2
+  version: 1.0.0
