@@ -2,11 +2,9 @@ server:
   port: 8080
 
 spring:
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: ${datasource_url}
-    username: ${datasource_username}
-    password: ${datasource_password}
+  profiles:
+    active: ${profile_active}
+  datasource: ${datasource}
   jpa:
     database: mysql
     hibernate:
