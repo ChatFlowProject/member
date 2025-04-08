@@ -3,6 +3,7 @@ package chatflow.memberservice.controller;
 import chatflow.memberservice.dto.ApiResponse;
 import chatflow.memberservice.dto.friendship.request.FriendshipRequest;
 import chatflow.memberservice.dto.friendship.response.FriendshipInfoResponse;
+import chatflow.memberservice.dto.friendship.response.FriendshipResponse;
 import chatflow.memberservice.security.MemberAuthorize;
 import chatflow.memberservice.service.FriendshipService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -26,9 +27,8 @@ public class FriendshipController {
 
     @Operation(summary = "친구 요청")
     @PostMapping
-    public ApiResponse<Long> requestFriendship(@AuthenticationPrincipal User user, @Valid @RequestBody FriendshipRequest request) {
-        friendshipService.requestFriendship(UUID.fromString(user.getUsername()), request);
-        return ApiResponse.success();
+    public ApiResponse<FriendshipResponse> requestFriendship(@AuthenticationPrincipal User user, @Valid @RequestBody FriendshipRequest request) {
+        return ApiResponse.success(friendshipService.requestFriendshipByNickname(UUID.fromString(user.getUsername()), request));
     }
 
     @Operation(summary = "보낸 친구 요청 목록 조회")
