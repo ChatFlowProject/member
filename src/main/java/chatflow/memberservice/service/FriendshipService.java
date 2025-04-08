@@ -74,6 +74,7 @@ public class FriendshipService {
                                 friendship.getFromMember().getId(),
                                 friendship.getFromMember().getNickname(),
                                 friendship.getFromMember().getName(),
+                                friendship.getFromMember().getAvatar(),
                                 friendship.getFromMember().getCreatedAt()
                         )
                 ))
@@ -91,6 +92,7 @@ public class FriendshipService {
                                 friendship.getToMember().getId(),
                                 friendship.getToMember().getNickname(),
                                 friendship.getToMember().getName(),
+                                friendship.getToMember().getAvatar(),
                                 friendship.getToMember().getCreatedAt()
                         )
                 ))
@@ -108,6 +110,7 @@ public class FriendshipService {
                                 friendship.getToMember().getId(),
                                 friendship.getToMember().getNickname(),
                                 friendship.getToMember().getName(),
+                                friendship.getToMember().getAvatar(),
                                 friendship.getToMember().getCreatedAt()
                         )
                 ))
@@ -126,6 +129,7 @@ public class FriendshipService {
                                 friendship.getToMember().getId(),
                                 friendship.getToMember().getNickname(),
                                 friendship.getToMember().getName(),
+                                friendship.getToMember().getAvatar(),
                                 friendship.getToMember().getCreatedAt()
                         )
                 ))
