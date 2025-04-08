@@ -1,6 +1,7 @@
 package chatflow.memberservice.dto.member.response;
 
 import chatflow.memberservice.entity.member.Member;
+import chatflow.memberservice.entity.member.MemberState;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.time.LocalDateTime;
@@ -15,6 +16,8 @@ public record MemberSimpleResponse(
         String name,
         @Schema(description = "회원 아바타 이미지 url", example = "https://snowball-bucket.s3.ap-northeast-2.amazonaws.com/f41b6bb9-3jerry.png")
         String avatarUrl,
+        @Schema(description = "회원 상태", example = "ONLINE(온라인), OFFLINE(오프라인)")
+        MemberState state,
         @Schema(description = "회원 가입 시기", example = "2008-04-07T15:00:00")
         LocalDateTime createdAt
 ) {
@@ -24,6 +27,7 @@ public record MemberSimpleResponse(
                 member.getNickname(),
                 member.getName(),
                 member.getAvatar(),
+                member.getState(),
                 member.getCreatedAt()
         );
     }

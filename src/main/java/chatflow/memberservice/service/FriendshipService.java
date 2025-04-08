@@ -70,13 +70,7 @@ public class FriendshipService {
                 .map(friendship -> new FriendshipInfoResponse(
                         friendship.getId(), // 역방향 데이터 friendshipId (false 데이터)
                         friendship.getCreatedAt(),
-                        new MemberSimpleResponse(
-                                friendship.getFromMember().getId(),
-                                friendship.getFromMember().getNickname(),
-                                friendship.getFromMember().getName(),
-                                friendship.getFromMember().getAvatar(),
-                                friendship.getFromMember().getCreatedAt()
-                        )
+                        MemberSimpleResponse.from(friendship.getFromMember())
                 ))
                 .collect(Collectors.toList());
     }
@@ -88,13 +82,7 @@ public class FriendshipService {
                 .map(friendship -> new FriendshipInfoResponse(
                         friendship.getId(), // 역방향 데이터 friendshipId (false 데이터)
                         friendship.getCreatedAt(),
-                        new MemberSimpleResponse(
-                                friendship.getToMember().getId(),
-                                friendship.getToMember().getNickname(),
-                                friendship.getToMember().getName(),
-                                friendship.getToMember().getAvatar(),
-                                friendship.getToMember().getCreatedAt()
-                        )
+                        MemberSimpleResponse.from(friendship.getToMember())
                 ))
                 .collect(Collectors.toList());
     }
@@ -106,13 +94,7 @@ public class FriendshipService {
                 .map(friendship -> new FriendshipInfoResponse(
                         friendship.getId(), // findFriendsByMemberId 쿼리에 의해 정방향 or 역방향 모두 들어올 수 있음
                         friendship.getCreatedAt(),
-                        new MemberSimpleResponse(
-                                friendship.getToMember().getId(),
-                                friendship.getToMember().getNickname(),
-                                friendship.getToMember().getName(),
-                                friendship.getToMember().getAvatar(),
-                                friendship.getToMember().getCreatedAt()
-                        )
+                        MemberSimpleResponse.from(friendship.getToMember())
                 ))
                 .collect(Collectors.toList());
     }
@@ -125,13 +107,7 @@ public class FriendshipService {
                 .map(friendship -> new FriendshipInfoResponse(
                         friendship.getId(),
                         friendship.getCreatedAt(),
-                        new MemberSimpleResponse(
-                                friendship.getToMember().getId(),
-                                friendship.getToMember().getNickname(),
-                                friendship.getToMember().getName(),
-                                friendship.getToMember().getAvatar(),
-                                friendship.getToMember().getCreatedAt()
-                        )
+                        MemberSimpleResponse.from(friendship.getToMember())
                 ))
                 .collect(Collectors.toList());
     }
