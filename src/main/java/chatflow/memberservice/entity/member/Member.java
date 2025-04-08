@@ -38,6 +38,7 @@ public class Member {
     private MemberState state;
     @Enumerated(EnumType.STRING)
     private MemberType type;
+    private String avatar;
     @CreationTimestamp
     private LocalDateTime createdAt;
 
@@ -69,6 +70,7 @@ public class Member {
                 ? this.password : encoder.encode(newMember.newPassword());
         this.name = newMember.name();
         this.birth = LocalDate.parse(newMember.birth(), DateTimeFormatter.ISO_LOCAL_DATE);
+        this.avatar = newMember.avatarUrl();
     }
 
     public MemberState modifyState(MemberState state) {

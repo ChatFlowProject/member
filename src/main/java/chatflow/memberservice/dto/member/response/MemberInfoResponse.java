@@ -20,6 +20,8 @@ public record MemberInfoResponse(
         String birth,
         @Schema(description = "회원 타입", example = "MEMBER")
         MemberType type,
+        @Schema(description = "회원 아바타 이미지 url", example = "https://snowball-bucket.s3.ap-northeast-2.amazonaws.com/f41b6bb9-3jerry.png")
+        String avatarUrl,
         @Schema(description = "회원 가입 시기", example = "2008-04-07T15:00:00")
         LocalDateTime createdAt
 ) {
@@ -31,6 +33,7 @@ public record MemberInfoResponse(
                 member.getName(),
                 member.getBirth().toString(),
                 member.getType(),
+                member.getAvatar(),
                 member.getCreatedAt()
         );
     }

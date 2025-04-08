@@ -13,6 +13,8 @@ public record MemberSimpleResponse(
         String nickname,
         @Schema(description = "회원 이름", example = "Jerry")
         String name,
+        @Schema(description = "회원 아바타 이미지 url", example = "https://snowball-bucket.s3.ap-northeast-2.amazonaws.com/f41b6bb9-3jerry.png")
+        String avatarUrl,
         @Schema(description = "회원 가입 시기", example = "2008-04-07T15:00:00")
         LocalDateTime createdAt
 ) {
@@ -21,6 +23,7 @@ public record MemberSimpleResponse(
                 member.getId(),
                 member.getNickname(),
                 member.getName(),
+                member.getAvatar(),
                 member.getCreatedAt()
         );
     }
