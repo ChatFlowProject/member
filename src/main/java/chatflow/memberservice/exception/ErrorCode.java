@@ -6,10 +6,10 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 public enum ErrorCode {
 
     // Common
-    BAD_REQUEST(400, "BAD_REQUEST"),
+    BAD_REQUEST(400, "Bad Request"),
     INVALID_INPUT_VALUE(400, "Invalid Input Value"),
     INVALID_TYPE_VALUE(400, "Invalid Type Value"),
-    INVALID_SIGNATURE_TOKEN(401, "토큰이 유효하지 않습니다."), // 토큰 검증 실패
+    INVALID_SIGNATURE_TOKEN(401, "토큰이 유효하지 않습니다."),
     INVALID_TOKEN(401, "올바르지 않은 토큰입니다."),
     EXPIRED_TOKEN(401, "토큰이 만료되었습니다."),
     UNAUTHENTICATED_ACCESS(401, "해당 리소스에 접근하려면 인증이 필요합니다."),
@@ -18,11 +18,14 @@ public enum ErrorCode {
     RESOURCE_NOT_FOUND(404, "Resource not found"),
     METHOD_NOT_ALLOWED(405, "Invalid Method"),
     INTERNAL_SERVER_ERROR(500, "Server Error"),
-
+    EXTERNAL_SERVER_ERROR(502, "Bad Gateway"),
 
 
     // Member
     EMAIL_DUPLICATION(409, "Email is Duplication"),
+
+    // Friendship
+    INVALID_FRIENDSHIP(500, "Invalid Friendship")
     ;
 
     private final String message;
