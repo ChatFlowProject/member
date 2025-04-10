@@ -50,9 +50,9 @@ public class FriendshipService {
         }
 
         // 두 레코드만 조회: (member → friend)와 (friend → member)
-        List<Friendship> relevantFriendships = friendshipRepository.findByFromMemberIdInAndToMemberIdIn(member.getId(), friend.getId());
+        List<Friendship> checkFriendships = friendshipRepository.findByFromMemberIdInAndToMemberIdIn(member.getId(), friend.getId());
 
-        if (relevantFriendships.isEmpty()) { // 레코드 없는 경우: friendship 레코드 생성
+        if (checkFriendships.isEmpty()) { // 레코드 없는 경우: friendship 레코드 생성
             List<Friendship> friendships = Arrays.asList(
                     Friendship.request(member, friend, true),
                     Friendship.request(friend, member, false));
@@ -60,7 +60,7 @@ public class FriendshipService {
             return new FriendshipResponse(FriendRequestStatus.REQUEST_SUCCESS);
         }
 
-        Map<UUID, Friendship> friendshipMap = relevantFriendships.stream()
+        Map<UUID, Friendship> friendshipMap = checkFriendships.stream()
                 .collect(Collectors.toMap(f -> f.getFromMember().getId(), f -> f));
         Friendship memberToFriend = friendshipMap.get(member.getId());
         Friendship friendToMember = friendshipMap.get(friend.getId());
@@ -140,6 +140,14 @@ public class FriendshipService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = true)
+    public Boolean isFriend(UUID memberId, UUID friendId) {
+        return friendshipRepository.findByFromMemberIdInAndToMemberIdIn(memberId, friendId)
+                .stream()
+                .filter(Friendship::isFriend)
+                .count() == 2;
+    }
+
     @Transactional
     public void refuseFriendship(UUID memberId, Long friendshipId) { // 역방향 데이터 friendshipId (false 데이터)
         Friendship receivedFriendship = friendshipRepository.findByIdAndFromMemberId(friendshipId, memberId)
@@ -174,4 +182,5 @@ public class FriendshipService {
             throw new IllegalArgumentException("친구 요청 수락 대기중인 친구 관계입니다.");
         friendshipRepository.deleteAllInBatch(Arrays.asList(friendship, rvsFriendship));
     }
+
 }

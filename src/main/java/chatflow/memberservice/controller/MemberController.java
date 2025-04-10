@@ -32,8 +32,8 @@ public class MemberController {
 
     @Operation(summary = "회원 단건 조회")
     @GetMapping("/{memberId}")
-    public ApiResponse<MemberSimpleResponse> getMemberInfo(@PathVariable("memberId") String memberId) {
-        return ApiResponse.success(memberService.getMemberSimpleInfo(UUID.fromString(memberId)));
+    public ApiResponse<MemberSimpleResponse> getMemberInfo(@PathVariable("memberId") UUID memberId) {
+        return ApiResponse.success(memberService.getMemberSimpleInfo(memberId));
     }
 
     @Operation(summary = "나의 회원 탈퇴")

@@ -27,7 +27,9 @@ public class FriendshipController {
 
     @Operation(summary = "친구 요청")
     @PostMapping
-    public ApiResponse<FriendshipResponse> requestFriendship(@AuthenticationPrincipal User user, @Valid @RequestBody FriendshipRequest request) {
+    public ApiResponse<FriendshipResponse> requestFriendship(
+            @AuthenticationPrincipal User user,
+            @Valid @RequestBody FriendshipRequest request) {
         return ApiResponse.success(friendshipService.requestFriendshipByNickname(UUID.fromString(user.getUsername()), request));
     }
 
@@ -55,30 +57,46 @@ public class FriendshipController {
         return ApiResponse.success(friendshipService.getOnlineFriends(UUID.fromString(user.getUsername())));
     }
 
+    @Operation(summary = "친구 관계 조회")
+    @GetMapping
+    public ApiResponse<Boolean> checkFriendship(
+            @AuthenticationPrincipal User user,
+            @RequestParam("friendId") UUID friendId) {
+        return ApiResponse.success(friendshipService.isFriend(UUID.fromString(user.getUsername()), friendId));
+    }
+
     @Operation(summary = "친구 요청 수락")
     @PatchMapping("/{friendshipId}")
-    public ApiResponse acceptFriendship(@AuthenticationPrincipal User user, @PathVariable("friendshipId") Long friendshipId) {
+    public ApiResponse acceptFriendship(
+            @AuthenticationPrincipal User user,
+            @PathVariable("friendshipId") Long friendshipId) {
         friendshipService.acceptFriendship(UUID.fromString(user.getUsername()), friendshipId);
         return ApiResponse.success();
     }
 
     @Operation(summary = "친구 요청 거절")
     @DeleteMapping("/{friendshipId}/refuse")
-    public ApiResponse refuseFriendship(@AuthenticationPrincipal User user, @PathVariable("friendshipId") Long friendshipId) {
+    public ApiResponse refuseFriendship(
+            @AuthenticationPrincipal User user,
+            @PathVariable("friendshipId") Long friendshipId) {
         friendshipService.refuseFriendship(UUID.fromString(user.getUsername()), friendshipId);
         return ApiResponse.success();
     }
 
     @Operation(summary = "친구 요청 취소")
     @DeleteMapping("/{friendshipId}/cancel")
-    public ApiResponse cancelFriendship(@AuthenticationPrincipal User user, @PathVariable("friendshipId") Long friendshipId) {
+    public ApiResponse cancelFriendship(
+            @AuthenticationPrincipal User user,
+            @PathVariable("friendshipId") Long friendshipId) {
         friendshipService.cancelFriendship(UUID.fromString(user.getUsername()), friendshipId);
         return ApiResponse.success();
     }
 
     @Operation(summary = "친구 삭제")
     @DeleteMapping("/{friendshipId}")
-    public ApiResponse deleteFriendship(@AuthenticationPrincipal User user, @PathVariable("friendshipId") Long friendshipId) {
+    public ApiResponse deleteFriendship(
+            @AuthenticationPrincipal User user,
+            @PathVariable("friendshipId") Long friendshipId) {
         friendshipService.deleteFriendship(UUID.fromString(user.getUsername()), friendshipId);
         return ApiResponse.success();
     }
