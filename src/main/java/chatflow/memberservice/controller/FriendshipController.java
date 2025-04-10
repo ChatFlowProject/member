@@ -58,7 +58,7 @@ public class FriendshipController {
     }
 
     @Operation(summary = "친구 관계 조회")
-    @GetMapping
+    @GetMapping("/me")
     public ApiResponse<Boolean> checkFriendship(
             @AuthenticationPrincipal User user,
             @RequestParam("friendId") UUID friendId) {
