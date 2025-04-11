@@ -1,6 +1,7 @@
 package chatflow.memberservice.controller;
 
 import chatflow.memberservice.dto.ApiResponse;
+import chatflow.memberservice.dto.member.request.MemberListRequest;
 import chatflow.memberservice.dto.member.request.MemberModifyStateRequest;
 import chatflow.memberservice.dto.member.request.MemberUpdateRequest;
 import chatflow.memberservice.dto.member.response.*;
@@ -10,10 +11,12 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @Tag(name = "회원 API (인증 토큰 필요)")
@@ -21,6 +24,7 @@ import java.util.UUID;
 @MemberAuthorize
 @RestController
 @RequestMapping("/members")
+@Slf4j
 public class MemberController {
     private final MemberService memberService;
 
@@ -30,10 +34,16 @@ public class MemberController {
         return ApiResponse.success(memberService.getMemberInfo(UUID.fromString(user.getUsername())));
     }
 
-    @Operation(summary = "회원 단건 조회")
+    @Operation(summary = "회원 단일 조회")
     @GetMapping("/{memberId}")
     public ApiResponse<MemberSimpleResponse> getMemberInfo(@PathVariable("memberId") UUID memberId) {
         return ApiResponse.success(memberService.getMemberSimpleInfo(memberId));
+    }
+
+    @Operation(summary = "회원 다수 조회")
+    @PostMapping("/search")
+    public ApiResponse<List<MemberSimpleResponse>> getMemberInfoList(@Valid @RequestBody MemberListRequest request) {
+        return ApiResponse.success(memberService.getMemberSimpleInfoList(request));
     }
 
     @Operation(summary = "나의 회원 탈퇴")

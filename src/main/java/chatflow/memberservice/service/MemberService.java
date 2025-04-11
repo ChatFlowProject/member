@@ -1,5 +1,6 @@
 package chatflow.memberservice.service;
 
+import chatflow.memberservice.dto.member.request.MemberListRequest;
 import chatflow.memberservice.dto.member.request.MemberModifyStateRequest;
 import chatflow.memberservice.dto.member.request.MemberUpdateRequest;
 import chatflow.memberservice.dto.member.response.*;
@@ -13,7 +14,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -36,6 +39,13 @@ public class MemberService {
     @Transactional(readOnly = true)
     public MemberSimpleResponse getMemberSimpleInfo(UUID id) {
         return MemberSimpleResponse.from(getMemberById(id));
+    }
+
+    @Transactional(readOnly = true)
+    public List<MemberSimpleResponse> getMemberSimpleInfoList(MemberListRequest request) {
+        return memberRepository.findByIdIn(request.memberIds()).stream()
+                .map(MemberSimpleResponse::from)
+                .collect(Collectors.toList());
     }
 
     @Transactional
