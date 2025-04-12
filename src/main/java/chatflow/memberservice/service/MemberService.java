@@ -42,10 +42,10 @@ public class MemberService {
     }
 
     @Transactional(readOnly = true)
-    public List<MemberSimpleResponse> getMemberSimpleInfoList(MemberListRequest request) {
-        return memberRepository.findByIdIn(request.memberIds()).stream()
+    public MemberResponse getMemberInfoList(UUID id, MemberListRequest request) {
+        return MemberResponse.from(id, memberRepository.findByIdIn(request.memberIds()).stream()
                 .map(MemberSimpleResponse::from)
-                .collect(Collectors.toList());
+                .collect(Collectors.toList()));
     }
 
     @Transactional

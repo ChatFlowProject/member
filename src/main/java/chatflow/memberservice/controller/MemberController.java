@@ -16,7 +16,6 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.UUID;
 
 @Tag(name = "회원 API (인증 토큰 필요)")
@@ -42,8 +41,10 @@ public class MemberController {
 
     @Operation(summary = "회원 다수 조회")
     @PostMapping("/search")
-    public ApiResponse<List<MemberSimpleResponse>> getMemberInfoList(@Valid @RequestBody MemberListRequest request) {
-        return ApiResponse.success(memberService.getMemberSimpleInfoList(request));
+    public ApiResponse<MemberResponse> getMemberInfoList(
+            @AuthenticationPrincipal User user,
+            @Valid @RequestBody MemberListRequest request) {
+        return ApiResponse.success(memberService.getMemberInfoList(UUID.fromString(user.getUsername()), request));
     }
 
     @Operation(summary = "나의 회원 탈퇴")
@@ -54,7 +55,9 @@ public class MemberController {
 
     @Operation(summary = "나의 정보 수정")
     @PutMapping
-    public ApiResponse<MemberUpdateResponse> updateMember(@AuthenticationPrincipal User user, @Valid @RequestBody MemberUpdateRequest request) {
+    public ApiResponse<MemberUpdateResponse> updateMember(
+            @AuthenticationPrincipal User user,
+            @Valid @RequestBody MemberUpdateRequest request) {
         return ApiResponse.success(memberService.updateMember(UUID.fromString(user.getUsername()), request));
     }
 
