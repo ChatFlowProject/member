@@ -1,6 +1,7 @@
 package chatflow.memberservice.controller;
 
 import chatflow.memberservice.dto.ApiResponse;
+import chatflow.memberservice.dto.member.response.MemberInfoResponse;
 import chatflow.memberservice.security.AdminAuthorize;
 import chatflow.memberservice.service.AdminService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -9,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @Tag(name = "관리자용 API")
 @RequiredArgsConstructor
@@ -20,13 +23,13 @@ public class AdminController {
 
     @Operation(summary = "회원 목록 조회")
     @GetMapping("/members")
-    public ApiResponse getAllMembers() {
+    public ApiResponse<List<MemberInfoResponse>> getAllMembers() {
         return ApiResponse.success(adminService.getMembers());
     }
 
     @Operation(summary = "관리자 목록 조회")
     @GetMapping
-    public ApiResponse getAllAdmins() {
+    public ApiResponse<List<MemberInfoResponse>> getAllAdmins() {
         return ApiResponse.success(adminService.getAdmins());
     }
 }
