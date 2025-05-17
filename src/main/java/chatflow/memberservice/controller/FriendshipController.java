@@ -1,10 +1,10 @@
 package chatflow.memberservice.controller;
 
-import chatflow.memberservice.dto.ApiResponse;
-import chatflow.memberservice.dto.friendship.request.FriendshipRequest;
-import chatflow.memberservice.dto.friendship.response.FriendshipInfoResponse;
-import chatflow.memberservice.dto.friendship.response.FriendshipResponse;
-import chatflow.memberservice.security.MemberAuthorize;
+import chatflow.memberservice.controller.dto.ApiResponse;
+import chatflow.memberservice.controller.dto.friendship.request.FriendshipRequest;
+import chatflow.memberservice.controller.dto.friendship.response.FriendshipInfoResponse;
+import chatflow.memberservice.controller.dto.friendship.response.FriendshipResponse;
+import chatflow.memberservice.infrastructure.security.MemberAuthorize;
 import chatflow.memberservice.service.FriendshipService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

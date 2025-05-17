@@ -1,11 +1,11 @@
 package chatflow.memberservice.controller;
 
-import chatflow.memberservice.dto.ApiResponse;
-import chatflow.memberservice.dto.member.request.MemberListRequest;
-import chatflow.memberservice.dto.member.request.MemberModifyStateRequest;
-import chatflow.memberservice.dto.member.request.MemberUpdateRequest;
-import chatflow.memberservice.dto.member.response.*;
-import chatflow.memberservice.security.MemberAuthorize;
+import chatflow.memberservice.controller.dto.ApiResponse;
+import chatflow.memberservice.controller.dto.member.request.MemberListRequest;
+import chatflow.memberservice.controller.dto.member.request.MemberModifyStateRequest;
+import chatflow.memberservice.controller.dto.member.request.MemberUpdateRequest;
+import chatflow.memberservice.controller.dto.member.response.*;
+import chatflow.memberservice.infrastructure.security.MemberAuthorize;
 import chatflow.memberservice.service.MemberService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

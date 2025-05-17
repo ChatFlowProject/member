@@ -1,7 +1,7 @@
 package chatflow.memberservice.exception;
 
-import chatflow.memberservice.exception.common.EntityNotFoundException;
-import chatflow.memberservice.exception.common.ExternalServiceException;
+import chatflow.memberservice.exception.custom.EntityNotFoundException;
+import chatflow.memberservice.exception.custom.ExternalServiceException;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.security.SignatureException;

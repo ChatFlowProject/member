@@ -1,12 +1,12 @@
 package chatflow.memberservice.service;
 
-import chatflow.memberservice.dto.member.request.MemberListRequest;
-import chatflow.memberservice.dto.member.request.MemberModifyStateRequest;
-import chatflow.memberservice.dto.member.request.MemberUpdateRequest;
-import chatflow.memberservice.dto.member.response.*;
-import chatflow.memberservice.entity.member.Member;
-import chatflow.memberservice.entity.member.MemberState;
-import chatflow.memberservice.repository.MemberRepository;
+import chatflow.memberservice.controller.dto.member.request.MemberListRequest;
+import chatflow.memberservice.controller.dto.member.request.MemberModifyStateRequest;
+import chatflow.memberservice.controller.dto.member.request.MemberUpdateRequest;
+import chatflow.memberservice.controller.dto.member.response.*;
+import chatflow.memberservice.domain.model.Member;
+import chatflow.memberservice.domain.model.MemberState;
+import chatflow.memberservice.domain.repository.MemberRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,7 +14,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 

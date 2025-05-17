@@ -1,8 +1,8 @@
 package chatflow.memberservice.controller;
 
-import chatflow.memberservice.dto.ApiResponse;
-import chatflow.memberservice.dto.member.response.MemberInfoResponse;
-import chatflow.memberservice.security.AdminAuthorize;
+import chatflow.memberservice.controller.dto.ApiResponse;
+import chatflow.memberservice.controller.dto.member.response.MemberInfoResponse;
+import chatflow.memberservice.infrastructure.security.AdminAuthorize;
 import chatflow.memberservice.service.AdminService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

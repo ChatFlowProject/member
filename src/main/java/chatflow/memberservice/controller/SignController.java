@@ -1,10 +1,10 @@
 package chatflow.memberservice.controller;
 
-import chatflow.memberservice.dto.ApiResponse;
-import chatflow.memberservice.dto.sign_in.SignInRequest;
-import chatflow.memberservice.dto.sign_in.SignInResponse;
-import chatflow.memberservice.dto.sign_up.SignUpRequest;
-import chatflow.memberservice.dto.sign_up.SignUpResponse;
+import chatflow.memberservice.controller.dto.ApiResponse;
+import chatflow.memberservice.controller.dto.sign_in.SignInRequest;
+import chatflow.memberservice.controller.dto.sign_in.SignInResponse;
+import chatflow.memberservice.controller.dto.sign_up.SignUpRequest;
+import chatflow.memberservice.controller.dto.sign_up.SignUpResponse;
 import chatflow.memberservice.service.SignService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

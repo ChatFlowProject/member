@@ -1,12 +1,12 @@
 package chatflow.memberservice.service;
 
-import chatflow.memberservice.dto.sign_in.SignInRequest;
-import chatflow.memberservice.dto.sign_in.SignInResponse;
-import chatflow.memberservice.dto.sign_up.SignUpRequest;
-import chatflow.memberservice.dto.sign_up.SignUpResponse;
-import chatflow.memberservice.entity.member.Member;
-import chatflow.memberservice.repository.MemberRepository;
-import chatflow.memberservice.security.TokenProvider;
+import chatflow.memberservice.controller.dto.sign_in.SignInRequest;
+import chatflow.memberservice.controller.dto.sign_in.SignInResponse;
+import chatflow.memberservice.controller.dto.sign_up.SignUpRequest;
+import chatflow.memberservice.controller.dto.sign_up.SignUpResponse;
+import chatflow.memberservice.domain.model.Member;
+import chatflow.memberservice.domain.repository.MemberRepository;
+import chatflow.memberservice.infrastructure.security.TokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
