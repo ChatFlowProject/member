@@ -1,4 +1,4 @@
-package chatflow.memberservice.domain.model;
+package chatflow.memberservice.domain.model.friendship;
 
 public enum FriendRequestStatus {
     INVALID_REQUEST,

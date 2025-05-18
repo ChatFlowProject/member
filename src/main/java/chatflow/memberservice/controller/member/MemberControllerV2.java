@@ -1,12 +1,11 @@
-package chatflow.memberservice.controller;
+package chatflow.memberservice.controller.member;
 
 import chatflow.memberservice.controller.dto.ApiResponse;
-import chatflow.memberservice.controller.dto.member.request.MemberListRequest;
 import chatflow.memberservice.controller.dto.member.request.MemberModifyStateRequest;
 import chatflow.memberservice.controller.dto.member.request.MemberUpdateRequest;
 import chatflow.memberservice.controller.dto.member.response.*;
 import chatflow.memberservice.infrastructure.security.MemberAuthorize;
-import chatflow.memberservice.service.MemberService;
+import chatflow.memberservice.service.member.MemberServiceV2;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -22,36 +21,10 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @MemberAuthorize
 @RestController
-@RequestMapping("/members")
+@RequestMapping("/v2/members")
 @Slf4j
-public class MemberController {
-    private final MemberService memberService;
-
-    @Operation(summary = "나의 정보 조회")
-    @GetMapping
-    public ApiResponse<MemberInfoResponse> getMemberInfo(@AuthenticationPrincipal User user) {
-        return ApiResponse.success(memberService.getMemberInfo(UUID.fromString(user.getUsername())));
-    }
-
-    @Operation(summary = "회원 단일 조회")
-    @GetMapping("/{memberId}")
-    public ApiResponse<MemberSimpleResponse> getMemberInfo(@PathVariable("memberId") UUID memberId) {
-        return ApiResponse.success(memberService.getMemberSimpleInfo(memberId));
-    }
-
-    @Operation(summary = "회원 다수 조회")
-    @PostMapping("/search")
-    public ApiResponse<MemberResponse> getMemberInfoList(
-            @AuthenticationPrincipal User user,
-            @Valid @RequestBody MemberListRequest request) {
-        return ApiResponse.success(memberService.getMemberInfoList(UUID.fromString(user.getUsername()), request));
-    }
-
-    @Operation(summary = "나의 회원 탈퇴")
-    @DeleteMapping
-    public ApiResponse<MemberDeleteResponse> deleteMember(@AuthenticationPrincipal User user) {
-        return ApiResponse.success(memberService.deleteMember(UUID.fromString(user.getUsername())));
-    }
+public class MemberControllerV2 {
+    private final MemberServiceV2 memberService;
 
     @Operation(summary = "나의 정보 수정")
     @PutMapping
@@ -65,5 +38,12 @@ public class MemberController {
     @PatchMapping("/status")
     public ApiResponse<MemberModifyStateResponse> modifyMemberState(@AuthenticationPrincipal User user, @Valid @RequestBody MemberModifyStateRequest request) {
         return ApiResponse.success(memberService.modifyMemberState(UUID.fromString(user.getUsername()), request));
+    }
+
+    @Operation(summary = "나의 회원 탈퇴")
+    @DeleteMapping
+    public ApiResponse deleteMember(@AuthenticationPrincipal User user) {
+        memberService.deleteMember(UUID.fromString(user.getUsername()));
+        return ApiResponse.success();
     }
 }

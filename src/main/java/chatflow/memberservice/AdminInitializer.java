@@ -1,7 +1,7 @@
 package chatflow.memberservice;
 
-import chatflow.memberservice.domain.model.MemberType;
-import chatflow.memberservice.domain.model.Member;
+import chatflow.memberservice.domain.model.member.MemberType;
+import chatflow.memberservice.domain.model.member.Member;
 import chatflow.memberservice.domain.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.ApplicationArguments;

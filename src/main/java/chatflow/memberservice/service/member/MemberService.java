@@ -1,13 +1,13 @@
-package chatflow.memberservice.service;
+package chatflow.memberservice.service.member;
 
 import chatflow.memberservice.controller.dto.member.request.MemberListRequest;
 import chatflow.memberservice.controller.dto.member.request.MemberModifyStateRequest;
 import chatflow.memberservice.controller.dto.member.request.MemberUpdateRequest;
 import chatflow.memberservice.controller.dto.member.response.*;
-import chatflow.memberservice.domain.model.Member;
-import chatflow.memberservice.domain.model.MemberState;
+import chatflow.memberservice.domain.model.member.Member;
+import chatflow.memberservice.domain.model.member.MemberState;
 import chatflow.memberservice.domain.repository.MemberRepository;
-import jakarta.persistence.EntityNotFoundException;
+import chatflow.memberservice.exception.custom.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -48,10 +48,9 @@ public class MemberService {
     }
 
     @Transactional
-    public MemberDeleteResponse deleteMember(UUID id) {
-        if (!memberRepository.existsById(id)) return new MemberDeleteResponse(false);
-        memberRepository.deleteById(id);
-        return new MemberDeleteResponse(true);
+    public void deleteMember(UUID id) {
+        Member member = getMemberById(id);
+        memberRepository.delete(member);
     }
 
     @Transactional
@@ -60,7 +59,7 @@ public class MemberService {
                 .filter(member -> encoder.matches(request.password(), member.getPassword()))
                 .map(member -> {
                     member.update(request, encoder);
-                    return MemberUpdateResponse.from(true, member);
+                    return MemberUpdateResponse.from(member);
                 })
                 .orElseThrow(() -> new IllegalArgumentException("아이디 또는 비밀번호가 일치하지 않습니다."));
     }
@@ -69,4 +68,5 @@ public class MemberService {
     public MemberModifyStateResponse modifyMemberState(UUID id, MemberModifyStateRequest request) {
         return new MemberModifyStateResponse(getMemberById(id).modifyState(MemberState.of(request.memberState())).toString());
     }
+
 }

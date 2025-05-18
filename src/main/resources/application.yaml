@@ -26,6 +26,8 @@ spring:
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
+#      acks: "all" # 기본값 all
+#      enable-idempotence: true # 기본값 true
     consumer:
       group-id: "member-service-group"
       auto-offset-reset: earliest
@@ -34,13 +36,13 @@ spring:
     streams:
       application-id: "member-streams-app"
 
-management:
-  endpoint.health.probes.enabled: true
-  health:
-    livenessstate:
-      enabled: true
-    readinessstate:
-      enabled: true
+#management:
+#  endpoint.health.probes.enabled: true
+#  health:
+#    livenessstate:
+#      enabled: true
+#    readinessstate:
+#      enabled: true
 
 springdoc:
   default-consumes-media-type: application/json;charset=UTF-8

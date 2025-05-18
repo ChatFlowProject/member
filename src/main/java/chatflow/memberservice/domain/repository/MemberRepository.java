@@ -1,7 +1,7 @@
 package chatflow.memberservice.domain.repository;
 
-import chatflow.memberservice.domain.model.Member;
-import chatflow.memberservice.domain.model.MemberType;
+import chatflow.memberservice.domain.model.member.Member;
+import chatflow.memberservice.domain.model.member.MemberType;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

@@ -1,4 +1,4 @@
-package chatflow.memberservice.domain.model;
+package chatflow.memberservice.domain.model.member;
 
 import chatflow.memberservice.controller.dto.member.request.MemberUpdateRequest;
 import chatflow.memberservice.controller.dto.sign_up.SignUpRequest;

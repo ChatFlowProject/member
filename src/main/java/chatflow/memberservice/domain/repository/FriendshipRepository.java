@@ -1,6 +1,6 @@
 package chatflow.memberservice.domain.repository;
 
-import chatflow.memberservice.domain.model.Friendship;
+import chatflow.memberservice.domain.model.friendship.Friendship;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

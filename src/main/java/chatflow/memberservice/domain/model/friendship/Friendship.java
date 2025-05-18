@@ -1,5 +1,6 @@
-package chatflow.memberservice.domain.model;
+package chatflow.memberservice.domain.model.friendship;
 
+import chatflow.memberservice.domain.model.member.Member;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
