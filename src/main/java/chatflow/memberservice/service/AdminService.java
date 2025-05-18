@@ -2,7 +2,7 @@ package chatflow.memberservice.service;
 
 import chatflow.memberservice.domain.model.member.MemberType;
 import chatflow.memberservice.controller.dto.member.response.MemberInfoResponse;
-import chatflow.memberservice.domain.repository.MemberRepository;
+import chatflow.memberservice.infrastructure.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

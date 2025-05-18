@@ -3,7 +3,7 @@ package chatflow.memberservice.infrastructure.event;
 import chatflow.memberservice.domain.event.OutboxEvent;
 import chatflow.memberservice.domain.model.outbox.EventStatus;
 import chatflow.memberservice.domain.model.outbox.Outbox;
-import chatflow.memberservice.domain.repository.OutboxRepository;
+import chatflow.memberservice.infrastructure.repository.OutboxRepository;
 import chatflow.memberservice.exception.custom.EntityNotFoundException;
 import chatflow.memberservice.exception.custom.InternalServiceException;
 import chatflow.memberservice.infrastructure.kafka.KafkaEventPublisher;

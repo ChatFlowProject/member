@@ -9,7 +9,7 @@ import chatflow.memberservice.domain.event.member.MemberModifyStatusEvent;
 import chatflow.memberservice.domain.event.member.MemberUpdateEvent;
 import chatflow.memberservice.domain.model.member.Member;
 import chatflow.memberservice.domain.model.member.MemberState;
-import chatflow.memberservice.domain.repository.MemberRepository;
+import chatflow.memberservice.infrastructure.repository.MemberRepository;
 import chatflow.memberservice.exception.custom.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

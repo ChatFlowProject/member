@@ -2,7 +2,7 @@ package chatflow.memberservice.infrastructure.scheduler;
 
 import chatflow.memberservice.domain.model.outbox.EventStatus;
 import chatflow.memberservice.domain.model.outbox.Outbox;
-import chatflow.memberservice.domain.repository.OutboxRepository;
+import chatflow.memberservice.infrastructure.repository.OutboxRepository;
 import chatflow.memberservice.infrastructure.kafka.KafkaEventPublisher;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;

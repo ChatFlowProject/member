@@ -6,7 +6,7 @@ import chatflow.memberservice.controller.dto.member.request.MemberUpdateRequest;
 import chatflow.memberservice.controller.dto.member.response.*;
 import chatflow.memberservice.domain.model.member.Member;
 import chatflow.memberservice.domain.model.member.MemberState;
-import chatflow.memberservice.domain.repository.MemberRepository;
+import chatflow.memberservice.infrastructure.repository.MemberRepository;
 import chatflow.memberservice.exception.custom.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

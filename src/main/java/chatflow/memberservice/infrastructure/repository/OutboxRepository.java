@@ -1,4 +1,4 @@
-package chatflow.memberservice.domain.repository;
+package chatflow.memberservice.infrastructure.repository;
 
 import chatflow.memberservice.domain.model.outbox.EventStatus;
 import chatflow.memberservice.domain.model.outbox.Outbox;
