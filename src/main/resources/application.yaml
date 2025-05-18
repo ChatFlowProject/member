@@ -26,15 +26,15 @@ spring:
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
-#      acks: "all" # 기본값 all
-#      enable-idempotence: true # 기본값 true
     consumer:
       group-id: "member-service-group"
       auto-offset-reset: earliest
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      isolation-level: read_committed
     streams:
       application-id: "member-streams-app"
+      processing.guarantee: exactly_once_v2
 
 #management:
 #  endpoint.health.probes.enabled: true
