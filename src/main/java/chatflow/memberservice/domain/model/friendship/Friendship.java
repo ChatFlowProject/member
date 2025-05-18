@@ -1,14 +1,12 @@
 package chatflow.memberservice.domain.model.friendship;
 
+import chatflow.memberservice.domain.model.BaseEntity;
 import chatflow.memberservice.domain.model.member.Member;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.CreationTimestamp;
-
-import java.time.LocalDateTime;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
@@ -24,7 +22,7 @@ import java.time.LocalDateTime;
                 )
         }
 )
-public class Friendship {
+public class Friendship extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,9 +38,6 @@ public class Friendship {
 
     @Column(nullable = false)
     private boolean isFriend;
-
-    @CreationTimestamp
-    private LocalDateTime createdAt;
 
     @Builder
     private Friendship(Member fromMember, Member toMember, boolean isFriend) {
@@ -61,6 +56,6 @@ public class Friendship {
 
     public void acceptFriendship() {
         this.isFriend = true;
-        this.createdAt = LocalDateTime.now();
     }
+
 }

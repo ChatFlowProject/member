@@ -2,24 +2,23 @@ package chatflow.memberservice.domain.model.member;
 
 import chatflow.memberservice.controller.dto.member.request.MemberUpdateRequest;
 import chatflow.memberservice.controller.dto.sign_up.SignUpRequest;
+import chatflow.memberservice.domain.model.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
-public class Member {
+public class Member extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
@@ -39,8 +38,6 @@ public class Member {
     @Enumerated(EnumType.STRING)
     private MemberType type;
     private String avatar;
-    @CreationTimestamp
-    private LocalDateTime createdAt;
 
     @Builder
     private Member(String email, String password, String nickname, String name, LocalDate birth, MemberState state, MemberType type) {
@@ -76,4 +73,5 @@ public class Member {
     public MemberState modifyState(MemberState state) {
         return this.state = state;
     }
+
 }
