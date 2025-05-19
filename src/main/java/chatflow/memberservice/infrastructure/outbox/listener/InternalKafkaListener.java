@@ -15,7 +15,7 @@ public class InternalKafkaListener {
     private final OutboxRepository outboxRepository;
 
     // At-least-once 전송을 가정한 중복 레코드 발행 최소화 (완전 방지는 불가능)
-    @KafkaListener(topics = "member", groupId = "member-consumer-group")
+    @KafkaListener(topics = "member", groupId = "member-internal-consumer-group")
     public void consumeMemberEvents(String message, @Header("eventId") String eventId) {
         try {
             // eventId 기준으로 Outbox 조회 후 상태 업데이트
