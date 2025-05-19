@@ -19,7 +19,8 @@ public class KafkaEventPublisher {
             record.headers().add("eventId", eventId.getBytes(StandardCharsets.UTF_8));
             record.headers().add("eventType", eventType.getBytes(StandardCharsets.UTF_8));
 
-            kafkaTemplate.send(record).get(); // .get() -> 동기 전송: Kafka Cluster로부터 잘 전송되었는지 응답받기 위함
+            // .get() -> Kafka 메시지 전송 결과를 동기적으로 기다리기 위함 (Kafka 전송 성공 여부가 필요하기 때문)
+            kafkaTemplate.send(record).get();
         } catch (Exception e) {
             throw new KafkaEventSendException("Kafka send failed: " + e.getMessage());
         }
