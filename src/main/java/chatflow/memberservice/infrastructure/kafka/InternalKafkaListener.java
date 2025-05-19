@@ -25,9 +25,8 @@ public class InternalKafkaListener {
                     outboxRepository.save(outbox);
                 }
             });
-
         } catch (Exception e) {
-            // At-least-once 가정으로, Consumer에서 중복 처리를 방지해야 함 (Unique 키나 upsert 방식 사용하면 됨)
+            // At-least-once 가정으로, Consumer 처리하는 서비스에서 중복 처리를 방지해야 함 (Inbox, Unique키, upsert 방식을 활용할 수 있음)
             log.warn("Internal listener failed for eventId {}: {}", eventId, e.getMessage());
         }
     }

@@ -1,4 +1,4 @@
-package chatflow.memberservice.service;
+package chatflow.memberservice.service.member;
 
 import chatflow.memberservice.controller.dto.sign_in.SignInRequest;
 import chatflow.memberservice.controller.dto.sign_in.SignInResponse;
@@ -21,7 +21,7 @@ public class SignService {
     private final PasswordEncoder encoder;
 
     @Transactional
-    public SignUpResponse registMember(SignUpRequest request) {
+    public SignUpResponse registerMember(SignUpRequest request) {
         Member member = memberRepository.save(Member.create(request, encoder));
         try {
             memberRepository.flush();
