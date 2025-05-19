@@ -6,12 +6,12 @@ import chatflow.memberservice.controller.dto.member.response.MemberModifyStateRe
 import chatflow.memberservice.controller.dto.member.response.MemberUpdateResponse;
 import chatflow.memberservice.domain.member.Member;
 import chatflow.memberservice.domain.member.MemberState;
-import chatflow.memberservice.exception.custom.EntityNotFoundException;
-import chatflow.memberservice.infrastructure.messaging.event.member.MemberDeleteEvent;
-import chatflow.memberservice.infrastructure.messaging.event.member.MemberModifyStatusEvent;
-import chatflow.memberservice.infrastructure.messaging.event.member.MemberUpdateEvent;
-import chatflow.memberservice.infrastructure.messaging.payload.MemberPayload;
-import chatflow.memberservice.infrastructure.repository.MemberRepository;
+import chatflow.memberservice.common.exception.custom.EntityNotFoundException;
+import chatflow.memberservice.infrastructure.outbox.event.member.MemberDeleteEvent;
+import chatflow.memberservice.infrastructure.outbox.event.member.MemberModifyStatusEvent;
+import chatflow.memberservice.infrastructure.outbox.event.member.MemberUpdateEvent;
+import chatflow.memberservice.infrastructure.outbox.payload.MemberEventPayload;
+import chatflow.memberservice.infrastructure.repository.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
@@ -42,7 +42,7 @@ public class MemberServiceV2 {
             throw new IllegalArgumentException("아이디 또는 비밀번호가 일치하지 않습니다.");
         }
         member.update(request, encoder);
-        eventPublisher.publishEvent(new MemberUpdateEvent(member.getId().toString(), MemberPayload.from(member)));
+        eventPublisher.publishEvent(new MemberUpdateEvent(member.getId().toString(), MemberEventPayload.from(member)));
         return MemberUpdateResponse.from(member);
     }
 
@@ -50,7 +50,7 @@ public class MemberServiceV2 {
     public MemberModifyStateResponse modifyMemberState(UUID id, MemberModifyStateRequest request) {
         Member member = getMemberById(id);
         MemberState memberState = member.modifyState(MemberState.of(request.memberState()));
-        eventPublisher.publishEvent(new MemberModifyStatusEvent(member.getId().toString(), MemberPayload.from(member)));
+        eventPublisher.publishEvent(new MemberModifyStatusEvent(member.getId().toString(), MemberEventPayload.from(member)));
         return new MemberModifyStateResponse(memberState.toString());
     }
 
@@ -58,7 +58,7 @@ public class MemberServiceV2 {
     public void deleteMember(UUID id) {
         Member member = getMemberById(id);
         memberRepository.delete(member);
-        eventPublisher.publishEvent(new MemberDeleteEvent(member.getId().toString(), MemberPayload.from(member)));
+        eventPublisher.publishEvent(new MemberDeleteEvent(member.getId().toString(), MemberEventPayload.from(member)));
     }
 
 }
