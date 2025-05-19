@@ -1,6 +1,6 @@
-package chatflow.memberservice.domain.model.outbox;
+package chatflow.memberservice.domain.outbox;
 
-import chatflow.memberservice.domain.model.BaseEntity;
+import chatflow.memberservice.domain.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;

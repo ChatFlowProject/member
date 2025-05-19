@@ -1,4 +1,4 @@
-package chatflow.memberservice.domain.model.outbox;
+package chatflow.memberservice.domain.outbox;
 
 import lombok.Getter;
 

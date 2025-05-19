@@ -1,4 +1,4 @@
-package chatflow.memberservice.domain.model.member;
+package chatflow.memberservice.domain.member;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import lombok.AllArgsConstructor;

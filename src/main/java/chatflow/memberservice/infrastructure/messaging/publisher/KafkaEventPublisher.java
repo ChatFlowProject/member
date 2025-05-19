@@ -1,4 +1,4 @@
-package chatflow.memberservice.infrastructure.kafka;
+package chatflow.memberservice.infrastructure.messaging.publisher;
 
 import chatflow.memberservice.exception.custom.KafkaEventSendException;
 import lombok.RequiredArgsConstructor;

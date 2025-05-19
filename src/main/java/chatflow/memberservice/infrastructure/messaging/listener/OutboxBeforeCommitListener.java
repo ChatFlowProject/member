@@ -1,12 +1,10 @@
-package chatflow.memberservice.infrastructure.event;
+package chatflow.memberservice.infrastructure.messaging.listener;
 
-import chatflow.memberservice.domain.event.OutboxEvent;
-import chatflow.memberservice.domain.model.outbox.EventStatus;
-import chatflow.memberservice.domain.model.outbox.Outbox;
-import chatflow.memberservice.infrastructure.repository.OutboxRepository;
-import chatflow.memberservice.exception.custom.EntityNotFoundException;
+import chatflow.memberservice.domain.outbox.EventStatus;
+import chatflow.memberservice.domain.outbox.Outbox;
 import chatflow.memberservice.exception.custom.InternalServiceException;
-import chatflow.memberservice.infrastructure.kafka.KafkaEventPublisher;
+import chatflow.memberservice.infrastructure.messaging.event.OutboxEvent;
+import chatflow.memberservice.infrastructure.repository.OutboxRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -18,9 +16,8 @@ import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
-public class OutboxEventListener {
+public class OutboxBeforeCommitListener {
     private final OutboxRepository outboxRepository;
-    private final KafkaEventPublisher kafkaEventPublisher;
     private final ObjectMapper objectMapper;
 
     @TransactionalEventListener(phase = TransactionPhase.BEFORE_COMMIT)
@@ -41,27 +38,6 @@ public class OutboxEventListener {
         } catch (JsonProcessingException e) {
             throw new InternalServiceException("Payload serialization failed: " + e.getMessage());
         }
-    }
-
-    @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
-    public void handleOutboxEventAfterCommit(OutboxEvent event) {
-        String eventId = event.getEventId();
-        Outbox outbox = outboxRepository.findByEventId(eventId)
-                .orElseThrow(() -> new EntityNotFoundException("eventId에 대한 OutBox 데이터가 존재하지 않습니다."));
-
-        try {
-            kafkaEventPublisher.sendEvent(
-                    outbox.getAggregateType(),   // topic
-                    outbox.getEventId(),         // eventId (header & Outbox Unique key)
-                    outbox.getEventType(),       // eventType (header)
-                    outbox.getAggregateId(),     // record key
-                    outbox.getPayload()          // record message
-            );
-            outbox.markSuccess();
-        } catch (Exception e) {
-            outbox.markFailed();
-        }
-        outboxRepository.save(outbox);
     }
 
 }

@@ -1,8 +1,8 @@
-package chatflow.memberservice.domain.model.member;
+package chatflow.memberservice.domain.member;
 
 import chatflow.memberservice.controller.dto.member.request.MemberUpdateRequest;
 import chatflow.memberservice.controller.dto.sign_up.SignUpRequest;
-import chatflow.memberservice.domain.model.BaseEntity;
+import chatflow.memberservice.domain.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;

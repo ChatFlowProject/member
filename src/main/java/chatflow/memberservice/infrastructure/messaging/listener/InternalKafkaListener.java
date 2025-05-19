@@ -1,6 +1,6 @@
-package chatflow.memberservice.infrastructure.kafka;
+package chatflow.memberservice.infrastructure.messaging.listener;
 
-import chatflow.memberservice.domain.model.outbox.EventStatus;
+import chatflow.memberservice.domain.outbox.EventStatus;
 import chatflow.memberservice.infrastructure.repository.OutboxRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

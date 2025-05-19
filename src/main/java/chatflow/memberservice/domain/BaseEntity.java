@@ -1,4 +1,4 @@
-package chatflow.memberservice.domain.model;
+package chatflow.memberservice.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;

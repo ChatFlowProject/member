@@ -1,15 +1,15 @@
-package chatflow.memberservice.domain.event;
+package chatflow.memberservice.infrastructure.messaging.event;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public abstract class OutboxEvent {
+public abstract class OutboxEvent<T> {
     private String aggregateType;
     private String aggregateId;
     private String eventType;
-    private Object payload;
+    private T payload;
     private String eventId;
 
     public void setEventId(String  eventId) {

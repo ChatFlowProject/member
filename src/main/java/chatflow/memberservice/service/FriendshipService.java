@@ -4,10 +4,10 @@ import chatflow.memberservice.controller.dto.friendship.request.FriendshipReques
 import chatflow.memberservice.controller.dto.friendship.response.FriendshipInfoResponse;
 import chatflow.memberservice.controller.dto.friendship.response.FriendshipResponse;
 import chatflow.memberservice.controller.dto.member.response.MemberSimpleResponse;
-import chatflow.memberservice.domain.model.friendship.FriendRequestStatus;
-import chatflow.memberservice.domain.model.friendship.Friendship;
-import chatflow.memberservice.domain.model.member.Member;
-import chatflow.memberservice.domain.model.member.MemberState;
+import chatflow.memberservice.domain.friendship.FriendRequestStatus;
+import chatflow.memberservice.domain.friendship.Friendship;
+import chatflow.memberservice.domain.member.Member;
+import chatflow.memberservice.domain.member.MemberState;
 import chatflow.memberservice.exception.ErrorCode;
 import chatflow.memberservice.exception.custom.ServiceException;
 import chatflow.memberservice.infrastructure.repository.FriendshipRepository;

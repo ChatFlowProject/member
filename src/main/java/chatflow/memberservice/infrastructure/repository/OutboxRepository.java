@@ -1,7 +1,7 @@
 package chatflow.memberservice.infrastructure.repository;
 
-import chatflow.memberservice.domain.model.outbox.EventStatus;
-import chatflow.memberservice.domain.model.outbox.Outbox;
+import chatflow.memberservice.domain.outbox.EventStatus;
+import chatflow.memberservice.domain.outbox.Outbox;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Collection;

@@ -1,7 +1,7 @@
 package chatflow.memberservice.controller.dto.member.response;
 
-import chatflow.memberservice.domain.model.member.Member;
-import chatflow.memberservice.domain.model.member.MemberState;
+import chatflow.memberservice.domain.member.Member;
+import chatflow.memberservice.domain.member.MemberState;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.time.LocalDateTime;

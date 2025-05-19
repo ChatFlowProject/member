@@ -1,6 +1,6 @@
 package chatflow.memberservice.controller.dto.sign_up;
 
-import chatflow.memberservice.domain.model.member.Member;
+import chatflow.memberservice.domain.member.Member;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.util.UUID;

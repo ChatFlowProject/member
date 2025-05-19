@@ -1,6 +1,6 @@
 package chatflow.memberservice.controller.dto.friendship.response;
 
-import chatflow.memberservice.domain.model.friendship.FriendRequestStatus;
+import chatflow.memberservice.domain.friendship.FriendRequestStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 public record FriendshipResponse(
