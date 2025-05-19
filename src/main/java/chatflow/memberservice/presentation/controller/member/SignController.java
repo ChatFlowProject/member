@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "회원 가입 및 로그인 API")
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/v2")
+@RequestMapping
 public class SignController {
     private final SignService signService;
 
