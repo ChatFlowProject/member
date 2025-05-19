@@ -1,9 +1,9 @@
 package chatflow.memberservice.service.friendship;
 
-import chatflow.memberservice.controller.dto.friendship.request.FriendshipRequest;
-import chatflow.memberservice.controller.dto.friendship.response.FriendshipInfoResponse;
-import chatflow.memberservice.controller.dto.friendship.response.FriendshipResponse;
-import chatflow.memberservice.controller.dto.member.response.MemberSimpleResponse;
+import chatflow.memberservice.presentation.dto.friendship.request.FriendshipRequest;
+import chatflow.memberservice.presentation.dto.friendship.response.FriendshipInfoResponse;
+import chatflow.memberservice.presentation.dto.friendship.response.FriendshipResponse;
+import chatflow.memberservice.presentation.dto.member.response.MemberSimpleResponse;
 import chatflow.memberservice.domain.friendship.FriendRequestStatus;
 import chatflow.memberservice.domain.friendship.Friendship;
 import chatflow.memberservice.domain.member.Member;

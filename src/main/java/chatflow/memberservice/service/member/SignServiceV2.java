@@ -1,7 +1,7 @@
 package chatflow.memberservice.service.member;
 
-import chatflow.memberservice.controller.dto.sign_up.SignUpRequest;
-import chatflow.memberservice.controller.dto.sign_up.SignUpResponse;
+import chatflow.memberservice.presentation.dto.sign_up.SignUpRequest;
+import chatflow.memberservice.presentation.dto.sign_up.SignUpResponse;
 import chatflow.memberservice.domain.member.Member;
 import chatflow.memberservice.infrastructure.outbox.event.member.SignUpEvent;
 import chatflow.memberservice.infrastructure.outbox.payload.MemberEventPayload;

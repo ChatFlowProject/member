@@ -1,9 +1,9 @@
 package chatflow.memberservice.service.member;
 
-import chatflow.memberservice.controller.dto.sign_in.SignInRequest;
-import chatflow.memberservice.controller.dto.sign_in.SignInResponse;
-import chatflow.memberservice.controller.dto.sign_up.SignUpRequest;
-import chatflow.memberservice.controller.dto.sign_up.SignUpResponse;
+import chatflow.memberservice.presentation.dto.sign_in.SignInRequest;
+import chatflow.memberservice.presentation.dto.sign_in.SignInResponse;
+import chatflow.memberservice.presentation.dto.sign_up.SignUpRequest;
+import chatflow.memberservice.presentation.dto.sign_up.SignUpResponse;
 import chatflow.memberservice.domain.member.Member;
 import chatflow.memberservice.infrastructure.repository.member.MemberRepository;
 import chatflow.memberservice.infrastructure.security.TokenProvider;

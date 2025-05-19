@@ -1,9 +1,9 @@
 package chatflow.memberservice.service.member;
 
-import chatflow.memberservice.controller.dto.member.request.MemberModifyStateRequest;
-import chatflow.memberservice.controller.dto.member.request.MemberUpdateRequest;
-import chatflow.memberservice.controller.dto.member.response.MemberModifyStateResponse;
-import chatflow.memberservice.controller.dto.member.response.MemberUpdateResponse;
+import chatflow.memberservice.presentation.dto.member.request.MemberModifyStateRequest;
+import chatflow.memberservice.presentation.dto.member.request.MemberUpdateRequest;
+import chatflow.memberservice.presentation.dto.member.response.MemberModifyStateResponse;
+import chatflow.memberservice.presentation.dto.member.response.MemberUpdateResponse;
 import chatflow.memberservice.domain.member.Member;
 import chatflow.memberservice.domain.member.MemberState;
 import chatflow.memberservice.common.exception.custom.EntityNotFoundException;
