@@ -15,7 +15,7 @@ public record MemberUpdateResponse(
         return new MemberUpdateResponse(
                 member.getName(),
                 member.getBirth().toString(),
-                member.getAvatar()
+                member.getAvatarUrl()
         );
     }
 }

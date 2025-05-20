@@ -26,7 +26,7 @@ public record MemberSimpleResponse(
                 member.getId(),
                 member.getNickname(),
                 member.getName(),
-                member.getAvatar(),
+                member.getAvatarUrl(),
                 member.getState(),
                 member.getCreatedAt()
         );

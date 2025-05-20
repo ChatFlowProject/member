@@ -37,10 +37,10 @@ public class Member extends BaseEntity {
     private MemberState state;
     @Enumerated(EnumType.STRING)
     private MemberType type;
-    private String avatar;
+    private String avatarUrl;
 
     @Builder
-    private Member(String email, String password, String nickname, String name, LocalDate birth, MemberState state, MemberType type) {
+    private Member(String email, String password, String nickname, String name, LocalDate birth, MemberState state, MemberType type, String avatarUrl) {
         this.email = email;
         this.password = password;
         this.nickname = nickname;
@@ -48,6 +48,7 @@ public class Member extends BaseEntity {
         this.birth = birth;
         this.state = state;
         this.type = type;
+        this.avatarUrl = avatarUrl;
     }
 
     public static Member create(SignUpRequest request, PasswordEncoder encoder) {
@@ -59,6 +60,7 @@ public class Member extends BaseEntity {
                 .birth(LocalDate.parse(request.birth(), DateTimeFormatter.ISO_LOCAL_DATE))
                 .state(MemberState.OFFLINE)
                 .type(MemberType.MEMBER)
+                .avatarUrl("")
                 .build();
     }
 
@@ -67,7 +69,7 @@ public class Member extends BaseEntity {
                 ? this.password : encoder.encode(newMember.newPassword());
         this.name = newMember.name();
         this.birth = LocalDate.parse(newMember.birth(), DateTimeFormatter.ISO_LOCAL_DATE);
-        this.avatar = newMember.avatarUrl();
+        this.avatarUrl = newMember.avatarUrl();
     }
 
     public MemberState modifyState(MemberState state) {

@@ -36,7 +36,7 @@ public record MemberInfoResponse(
                 member.getName(),
                 member.getBirth().toString(),
                 member.getType(),
-                member.getAvatar(),
+                member.getAvatarUrl(),
                 member.getState(),
                 member.getCreatedAt()
         );
