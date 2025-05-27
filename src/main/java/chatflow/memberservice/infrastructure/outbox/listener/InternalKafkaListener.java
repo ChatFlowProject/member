@@ -15,6 +15,7 @@ public class InternalKafkaListener {
     private final OutboxRepository outboxRepository;
 
     // At-least-once 전송을 가정한 중복 레코드 발행 최소화 (완전 방지는 불가능)
+    // 메시지 바디(payload)에 해당하는 파라미터는 최소 한 개 이상 필요 (String message 파라미터)
     @KafkaListener(topics = "member", groupId = "member-internal-consumer-group")
     public void consumeMemberEvents(String message, @Header("eventId") String eventId) {
         try {

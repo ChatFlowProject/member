@@ -1,7 +1,4 @@
-# local 테스트용 dockerfile
-FROM amazoncorretto:17.0.7-alpine
-CMD ["./gradlew", "clean", "build"]
-ARG JAR_FILE_PATH=build/libs/*.jar
-COPY ${JAR_FILE_PATH} app.jar
+FROM openjdk:17
+COPY build/libs/*.jar app.jar
 EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "app.jar"]
