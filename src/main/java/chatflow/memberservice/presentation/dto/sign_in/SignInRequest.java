@@ -8,7 +8,7 @@ public record SignInRequest(
         @Schema(description = "회원 이메일", example = "jerry0339@naver.com")
         String email,
         @NotBlank(message = "비밀 번호를 입력해 주세요.")
-        @Schema(description = "회원 비밀번호", example = "4321")
+        @Schema(description = "회원 비밀번호", example = "654321")
         String password
 ) {
 }
