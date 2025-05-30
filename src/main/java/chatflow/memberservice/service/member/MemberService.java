@@ -1,5 +1,9 @@
 package chatflow.memberservice.service.member;
 
+import chatflow.memberservice.infrastructure.outbox.event.member.MemberDeleteEvent;
+import chatflow.memberservice.infrastructure.outbox.event.member.MemberModifyStatusEvent;
+import chatflow.memberservice.infrastructure.outbox.event.member.MemberUpdateEvent;
+import chatflow.memberservice.infrastructure.outbox.payload.MemberEventPayload;
 import chatflow.memberservice.presentation.dto.member.request.MemberListRequest;
 import chatflow.memberservice.presentation.dto.member.request.MemberModifyStateRequest;
 import chatflow.memberservice.presentation.dto.member.request.MemberUpdateRequest;
@@ -10,6 +14,7 @@ import chatflow.memberservice.infrastructure.repository.member.MemberRepository;
 import chatflow.memberservice.common.exception.custom.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +27,7 @@ import java.util.stream.Collectors;
 @Service
 public class MemberService {
     private final MemberRepository memberRepository;
+    private final ApplicationEventPublisher eventPublisher;
     private final PasswordEncoder encoder;
 
     @Transactional(readOnly = true)
@@ -51,22 +57,26 @@ public class MemberService {
     public void deleteMember(UUID id) {
         Member member = getMemberById(id);
         memberRepository.delete(member);
+        eventPublisher.publishEvent(new MemberDeleteEvent(member.getId().toString(), MemberEventPayload.from(member)));
     }
 
     @Transactional
     public MemberUpdateResponse updateMember(UUID id, MemberUpdateRequest request) {
-        return memberRepository.findById(id)
-                .filter(member -> encoder.matches(request.password(), member.getPassword()))
-                .map(member -> {
-                    member.update(request, encoder);
-                    return MemberUpdateResponse.from(member);
-                })
-                .orElseThrow(() -> new IllegalArgumentException("아이디 또는 비밀번호가 일치하지 않습니다."));
+        Member member = getMemberById(id);
+        if (!encoder.matches(request.password(), member.getPassword())) {
+            throw new IllegalArgumentException("아이디 또는 비밀번호가 일치하지 않습니다.");
+        }
+        member.update(request, encoder);
+        eventPublisher.publishEvent(new MemberUpdateEvent(member.getId().toString(), MemberEventPayload.from(member)));
+        return MemberUpdateResponse.from(member);
     }
 
     @Transactional
     public MemberModifyStateResponse modifyMemberState(UUID id, MemberModifyStateRequest request) {
-        return new MemberModifyStateResponse(getMemberById(id).modifyState(MemberState.of(request.memberState())).toString());
+        Member member = getMemberById(id);
+        MemberState memberState = member.modifyState(MemberState.of(request.memberState()));
+        eventPublisher.publishEvent(new MemberModifyStatusEvent(member.getId().toString(), MemberEventPayload.from(member)));
+        return new MemberModifyStateResponse(memberState.toString());
     }
 
 }
