@@ -26,9 +26,9 @@ public class SecurityConfig {
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final AuthenticationEntryPoint entryPoint;
 
-    private static final String[] ALLOWED_PATH = {"/sign-up", "/sign-in"};
+    private static final String[] ALLOWED_PATH = {"/sign-up", "/sign-in", "/members/v3/api-docs/**", "/members/swagger-ui/**", "/members/swagger-ui.html"};
     private static final List<String> ALLOWED_ORIGIN = List.of("http://localhost:3000",
-            "http://flowchat.shop", "https://flowchat.shop", "http://nps.flowchat.shop:30001", "https://nps.flowchat.shop:30001",
+            "http://flowchat.shop:30100", "https://flowchat.shop:30200",
             "https://chatflow-project.netlify.app");
     private static final List<String> ALLOWED_ORIGIN_PATTERN = List.of("http://*.flowchat.shop", "https://*.flowchat.shop");
 

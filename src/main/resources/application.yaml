@@ -49,12 +49,13 @@ springdoc:
   default-produces-media-type: application/json;charset=UTF-8
   paths-to-match: /**
   swagger-ui:
-    path: /
+    path: /members/swagger
     display-request-duration: true
     groups-order: desc
     operations-sorter: method
     disable-swagger-default-url: true
   api-docs:
+    path: /members/v3/api-docs
     groups:
       enabled: true
 
