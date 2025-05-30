@@ -16,3 +16,7 @@ spring:
     properties:
       hibernate.format_sql: true
       dialect: org.hibernate.dialect.H2Dialect
+
+chatflow:
+  http-url: http://test.flowchat.shop:30100
+  https-url: https://test.flowchat.shop:30200
