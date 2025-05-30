@@ -5,8 +5,8 @@ import chatflow.memberservice.infrastructure.outbox.payload.FriendshipEventPaylo
 
 public class FriendshipEstablishedEvent extends OutboxEvent {
 
-    public FriendshipEstablishedEvent(String aggregateId, FriendshipEventPayload payload) {
-        super("friendship", aggregateId, "friendshipEstablished", payload, "");
+    public FriendshipEstablishedEvent(FriendshipEventPayload payload) {
+        super("friendship", payload.id().toString(), "friendshipEstablished", payload, "");
     }
 
 }

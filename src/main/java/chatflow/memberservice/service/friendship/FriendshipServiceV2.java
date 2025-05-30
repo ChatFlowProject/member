@@ -79,7 +79,7 @@ public class FriendshipServiceV2 {
         if (!memberToFriend.isFriend()) { // 상대방이 친구 요청 먼저한 경우
             memberToFriend.acceptFriendship();
             // 친구관계 성립되는 경우 이벤트 발행
-            eventPublisher.publishEvent(new FriendshipEstablishedEvent(memberToFriend.getId().toString(), FriendshipEventPayload.from(memberToFriend)));
+            eventPublisher.publishEvent(new FriendshipEstablishedEvent(FriendshipEventPayload.from(memberToFriend)));
             return new FriendshipResponse(FriendRequestStatus.FRIENDSHIP_ESTABLISHED);
         }
 
@@ -95,7 +95,7 @@ public class FriendshipServiceV2 {
         if (friendship.isFriend())
             throw new IllegalArgumentException("이미 수락된 친구 요청입니다.");
         friendship.acceptFriendship();
-        eventPublisher.publishEvent(new FriendshipAcceptEvent(friendship.getId().toString(), FriendshipEventPayload.from(friendship)));
+        eventPublisher.publishEvent(new FriendshipAcceptEvent(FriendshipEventPayload.from(friendship)));
     }
 
     @Transactional
@@ -109,7 +109,7 @@ public class FriendshipServiceV2 {
         if (!friendship.isFriend() || !rvsFriendship.isFriend())
             throw new IllegalArgumentException("친구 요청 수락 대기중인 친구 관계입니다.");
         friendshipRepository.deleteAllInBatch(Arrays.asList(friendship, rvsFriendship));
-        eventPublisher.publishEvent(new FriendshipDeleteEvent(friendship.getId().toString(), FriendshipEventPayload.from(friendship)));
+        eventPublisher.publishEvent(new FriendshipDeleteEvent(FriendshipEventPayload.from(friendship)));
     }
 
 }
