@@ -1,12 +1,14 @@
 package chatflow.memberservice.infrastructure.outbox.listener;
 
-import chatflow.memberservice.infrastructure.outbox.model.Outbox;
 import chatflow.memberservice.common.exception.custom.EntityNotFoundException;
 import chatflow.memberservice.infrastructure.outbox.event.OutboxEvent;
+import chatflow.memberservice.infrastructure.outbox.model.Outbox;
 import chatflow.memberservice.infrastructure.outbox.publisher.KafkaEventPublisher;
 import chatflow.memberservice.infrastructure.repository.outbox.OutboxRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.event.TransactionPhase;
 import org.springframework.transaction.event.TransactionalEventListener;
 
@@ -17,6 +19,7 @@ public class OutboxAfterCommitListener {
     private final KafkaEventPublisher kafkaEventPublisher;
 
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void handleOutboxEventAfterCommit(OutboxEvent event) {
         String eventId = event.getEventId();
         Outbox outbox = outboxRepository.findByEventId(eventId)

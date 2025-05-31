@@ -1,19 +1,21 @@
 package chatflow.memberservice.infrastructure.outbox.listener;
 
-import chatflow.memberservice.infrastructure.outbox.model.EventStatus;
-import chatflow.memberservice.infrastructure.outbox.model.Outbox;
 import chatflow.memberservice.common.exception.custom.InternalServiceException;
 import chatflow.memberservice.infrastructure.outbox.event.OutboxEvent;
+import chatflow.memberservice.infrastructure.outbox.model.EventStatus;
+import chatflow.memberservice.infrastructure.outbox.model.Outbox;
 import chatflow.memberservice.infrastructure.repository.outbox.OutboxRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.event.TransactionPhase;
 import org.springframework.transaction.event.TransactionalEventListener;
 
 import java.util.UUID;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class OutboxBeforeCommitListener {

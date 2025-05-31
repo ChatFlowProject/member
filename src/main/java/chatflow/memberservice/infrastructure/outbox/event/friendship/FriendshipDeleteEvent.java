@@ -6,7 +6,7 @@ import chatflow.memberservice.infrastructure.outbox.payload.FriendshipEventPaylo
 public class FriendshipDeleteEvent extends OutboxEvent {
 
     public FriendshipDeleteEvent(FriendshipEventPayload payload) {
-        super("friendship", payload.id().toString(), "friendshipDelete", payload, "");
+        super("friendship", payload.id(), "friendshipDelete", payload, "");
     }
 
 }

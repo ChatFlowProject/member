@@ -17,6 +17,8 @@ public class OutboxScheduler {
     private final OutboxRepository outboxRepository;
     private final KafkaEventPublisher kafkaEventPublisher;
 
+    // At-least-once 가정으로,
+    // Consumer가 등록된 서비스에서 중복 처리를 방지해야 함
     @Scheduled(fixedDelay = 600000) // 10분 간격
     @Transactional
     public void retryPendingMessages() {
@@ -36,6 +38,7 @@ public class OutboxScheduler {
             }
             outboxRepository.save(outbox);
         }
+        // Scheduler에 의해 발생 가능한 중복 발행 및 처리에 대한 문제는 Inbox, Unique key, upsert, InternalKafkaListener 방식 등을 활용
     }
 
 }

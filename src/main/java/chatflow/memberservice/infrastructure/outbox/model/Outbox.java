@@ -17,7 +17,7 @@ public class Outbox extends BaseEntity {
     private Long id;
 
     @Column(nullable = false, unique = true, updatable = false)
-    private String eventId; // 외부 메시지 식별자 (UUID) - Topic key 또는 Outbox 조회에 사용
+    private String eventId; // 외부 메시지 식별자 (UUID) - AFTER_COMMIT 단계에서 Outbox 조회에 사용
 
     @Column(nullable = false)
     private String aggregateType;

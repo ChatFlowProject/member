@@ -11,7 +11,7 @@ public record SignUpRequest(
         @Schema(description = "회원 이메일", example = "jerry0339@naver.com")
         String email,
         @NotBlank(message = "비밀번호를 입력해 주세요.")
-        @Schema(description = "회원 비밀번호", example = "4321")
+        @Schema(description = "회원 비밀번호", example = "654321")
         String password,
         @NotBlank(message = "닉네임을 입력해 주세요.")
         @Size(min = 2, max = 20, message = "20자 이내로 입력해 주세요.")
