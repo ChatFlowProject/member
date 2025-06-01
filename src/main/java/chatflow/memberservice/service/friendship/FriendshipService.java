@@ -1,5 +1,9 @@
 package chatflow.memberservice.service.friendship;
 
+import chatflow.memberservice.infrastructure.outbox.event.friendship.FriendshipAcceptEvent;
+import chatflow.memberservice.infrastructure.outbox.event.friendship.FriendshipDeleteEvent;
+import chatflow.memberservice.infrastructure.outbox.event.friendship.FriendshipEstablishedEvent;
+import chatflow.memberservice.infrastructure.outbox.payload.FriendshipEventPayload;
 import chatflow.memberservice.presentation.dto.friendship.request.FriendshipRequest;
 import chatflow.memberservice.presentation.dto.friendship.response.FriendshipInfoResponse;
 import chatflow.memberservice.presentation.dto.friendship.response.FriendshipResponse;
@@ -16,6 +20,7 @@ import chatflow.memberservice.service.member.MemberService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,6 +37,7 @@ public class FriendshipService {
     private final MemberService memberService;
     private final FriendshipRepository friendshipRepository;
     private final MemberRepository memberRepository;
+    private final ApplicationEventPublisher eventPublisher;
 
     @Transactional(readOnly = true)
     public Friendship getFriendshipById(Long id) {
@@ -75,6 +81,8 @@ public class FriendshipService {
 
         if (!memberToFriend.isFriend()) { // 상대방이 친구 요청 먼저한 경우
             memberToFriend.acceptFriendship();
+            // 친구관계 성립되는 경우 이벤트 발행
+            eventPublisher.publishEvent(new FriendshipEstablishedEvent(FriendshipEventPayload.from(memberToFriend)));
             return new FriendshipResponse(FriendRequestStatus.FRIENDSHIP_ESTABLISHED);
         }
 
@@ -89,7 +97,8 @@ public class FriendshipService {
             throw new IllegalArgumentException("잘못된 친구 요청 수락입니다.");
         if (friendship.isFriend())
             throw new IllegalArgumentException("이미 수락된 친구 요청입니다.");
-        friendship.acceptFriendship(); // 수락시 역방향 데이터의 createdAt만 변경
+        friendship.acceptFriendship();
+        eventPublisher.publishEvent(new FriendshipAcceptEvent(FriendshipEventPayload.from(friendship)));
     }
 
     @Transactional(readOnly = true)
@@ -182,6 +191,7 @@ public class FriendshipService {
         if (!friendship.isFriend() || !rvsFriendship.isFriend())
             throw new IllegalArgumentException("친구 요청 수락 대기중인 친구 관계입니다.");
         friendshipRepository.deleteAllInBatch(Arrays.asList(friendship, rvsFriendship));
+        eventPublisher.publishEvent(new FriendshipDeleteEvent(FriendshipEventPayload.from(friendship)));
     }
 
 }
