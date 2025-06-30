@@ -30,13 +30,15 @@ public class TokenProvider {
         this.issuer = issuer;
     }
 
-    public String createToken(String userSpecification) {
+    public String createToken(String userId, String userRole) {
         return Jwts.builder()
+                .setHeaderParam("kid", "v1") // secret 키의 ID - key 유출, 정기 교체, 알고리즘(HS512..) 변경시 새로운 키와 함께 kid도 변경 
                 .signWith(new SecretKeySpec(secretKey.getBytes(), SignatureAlgorithm.HS512.getJcaName()))
-                .setSubject(userSpecification)
+                .setSubject(userId)
                 .setIssuer(issuer)
                 .setIssuedAt(Timestamp.valueOf(LocalDateTime.now()))
                 .setExpiration(Date.from(Instant.now().plus(expirationHours, ChronoUnit.HOURS)))
+                .claim("role", userRole)
                 .compact();
     }
 
