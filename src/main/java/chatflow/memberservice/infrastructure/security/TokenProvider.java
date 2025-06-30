@@ -16,15 +16,18 @@ import java.util.Date;
 @PropertySource("classpath:jwt.yml")
 @Service
 public class TokenProvider {
+    private final String kid;
     private final String secretKey;
     private final long expirationHours;
     private final String issuer;
 
     public TokenProvider(
+            @Value("${kid}") String kid,
             @Value("${secret-key}") String secretKey,
             @Value("${expiration-hours}") long expirationHours,
             @Value("${issuer}") String issuer
     ) {
+        this.kid = kid;
         this.secretKey = secretKey;
         this.expirationHours = expirationHours;
         this.issuer = issuer;
@@ -32,7 +35,7 @@ public class TokenProvider {
 
     public String createToken(String userId, String userRole) {
         return Jwts.builder()
-                .setHeaderParam("kid", "v1") // secret 키의 ID - key 유출, 정기 교체, 알고리즘(HS512..) 변경시 새로운 키와 함께 kid도 변경 
+                .setHeaderParam("kid", kid) // secret 키의 ID - key 유출, 정기 교체, 알고리즘(HS512..) 변경시 새로운 키와 함께 kid도 변경
                 .signWith(new SecretKeySpec(secretKey.getBytes(), SignatureAlgorithm.HS512.getJcaName()))
                 .setSubject(userId)
                 .setIssuer(issuer)

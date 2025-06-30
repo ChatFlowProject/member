@@ -1,3 +1,4 @@
+kid: v1
 secret-key: user_token_for_signature_must_be_at_least_256_bits_in_HMAC_signature_algorithms
 expiration-hours: 9000
 issuer: jerry0339
