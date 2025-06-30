@@ -20,3 +20,9 @@ spring:
 chatflow:
   http-url: http://test.flowchat.shop:30100
   https-url: https://test.flowchat.shop:30200
+
+springdoc:
+  swagger-ui:
+    path: /
+  api-docs:
+    path: /v3/api-docs
