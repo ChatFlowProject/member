@@ -46,7 +46,7 @@ public class TokenProvider {
                 .compact();
     }
 
-    public Claims validateTokenAndGetClaims(String token) {
+    public Claims getClaimsFromToken(String token) {
         return Jwts.parserBuilder()
                 .setSigningKey(secretKey.getBytes())
                 .build()
