@@ -1,5 +1,6 @@
 package chatflow.memberservice.infrastructure.security;
 
+import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -49,12 +50,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     }
 
     private User parseUserSpecification(String token) {
-        String[] split = Optional.ofNullable(token)
-                .filter(subject -> subject.length() >= 10)
-                .map(tokenProvider::validateTokenAndGetSubject)
-                .orElse("anonymous:anonymous")
-                .split(":");
-
-        return new User(split[0], "", List.of(new SimpleGrantedAuthority(split[1])));
+        Claims claims = tokenProvider.validateTokenAndGetClaims(token);
+        String uid = claims.getSubject();
+        String role = claims.get("role", String.class);
+        return new User(uid, "", List.of(new SimpleGrantedAuthority(role)));
     }
 }

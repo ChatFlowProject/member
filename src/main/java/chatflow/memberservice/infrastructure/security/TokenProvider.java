@@ -1,5 +1,6 @@
 package chatflow.memberservice.infrastructure.security;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;
@@ -45,12 +46,11 @@ public class TokenProvider {
                 .compact();
     }
 
-    public String validateTokenAndGetSubject(String token) {
+    public Claims validateTokenAndGetClaims(String token) {
         return Jwts.parserBuilder()
                 .setSigningKey(secretKey.getBytes())
                 .build()
                 .parseClaimsJws(token)
-                .getBody()
-                .getSubject();
+                .getBody();
     }
 }

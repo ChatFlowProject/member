@@ -3,7 +3,9 @@ package chatflow.memberservice.common.exception;
 import chatflow.memberservice.common.exception.custom.EntityNotFoundException;
 import chatflow.memberservice.common.exception.custom.ExternalServiceException;
 import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.UnsupportedJwtException;
 import io.jsonwebtoken.security.SignatureException;
 import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
@@ -65,10 +67,10 @@ public class GlobalExceptionHandler {
     }
 
     /**
-     * 잘못된 형식의 토큰인 경우
+     * 잘못된 형식 또는 지원하지 않는 토큰의 경우
      */
-    @ExceptionHandler(MalformedJwtException.class)
-    public ResponseEntity<ErrorResponse> handleMalformedJwtException(MalformedJwtException e) {
+    @ExceptionHandler({MalformedJwtException.class, UnsupportedJwtException.class})
+    public ResponseEntity<ErrorResponse> handleMalformedJwtException(JwtException e) {
         final ErrorResponse response = ErrorResponse.of(ErrorCode.INVALID_TOKEN);
         return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
     }
