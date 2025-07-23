@@ -1,5 +1,6 @@
 package chatflow.memberservice.service.friendship;
 
+import chatflow.memberservice.common.exception.custom.EntityNotFoundException;
 import chatflow.memberservice.infrastructure.outbox.event.friendship.FriendshipAcceptEvent;
 import chatflow.memberservice.infrastructure.outbox.event.friendship.FriendshipDeleteEvent;
 import chatflow.memberservice.infrastructure.outbox.event.friendship.FriendshipEstablishedEvent;
@@ -18,7 +19,7 @@ import chatflow.memberservice.common.exception.custom.ServiceException;
 import chatflow.memberservice.infrastructure.repository.friendship.FriendshipRepository;
 import chatflow.memberservice.infrastructure.repository.member.MemberRepository;
 import chatflow.memberservice.service.member.MemberService;
-import jakarta.persistence.EntityNotFoundException;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
