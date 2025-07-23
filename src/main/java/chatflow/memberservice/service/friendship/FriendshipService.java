@@ -3,6 +3,7 @@ package chatflow.memberservice.service.friendship;
 import chatflow.memberservice.infrastructure.outbox.event.friendship.FriendshipAcceptEvent;
 import chatflow.memberservice.infrastructure.outbox.event.friendship.FriendshipDeleteEvent;
 import chatflow.memberservice.infrastructure.outbox.event.friendship.FriendshipEstablishedEvent;
+import chatflow.memberservice.infrastructure.outbox.event.friendship.FriendshipRequestEvent;
 import chatflow.memberservice.infrastructure.outbox.payload.FriendshipEventPayload;
 import chatflow.memberservice.presentation.dto.friendship.request.FriendshipRequest;
 import chatflow.memberservice.presentation.dto.friendship.response.FriendshipInfoResponse;
@@ -64,6 +65,7 @@ public class FriendshipService {
                     Friendship.request(member, friend, true),
                     Friendship.request(friend, member, false));
             friendshipRepository.saveAll(friendships);
+            eventPublisher.publishEvent(new FriendshipRequestEvent(FriendshipEventPayload.from(friendships.get(0))));
             return new FriendshipResponse(FriendRequestStatus.REQUEST_SUCCESS);
         }
 
