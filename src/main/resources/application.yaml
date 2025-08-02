@@ -16,6 +16,14 @@ spring:
     url: ${DB_URL}
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
+    hikari: # keepalive-time < max-lifetime < wait_timeout(DB 설정)
+#      maximum-pool-size: 5
+#      minimum-idle: 2
+#      idle-timeout: 200000            # 유휴 커넥션 닫는 시간
+      max-lifetime: 40000             # 커넥션 재생성 시점 (DB보다 짧게)
+#      keepalive-time: 30000           # ping 주기
+#      connection-timeout: 10000       # 커넥션 획득 대기 시간 줄이기
+#      validation-timeout: 5000        # 커넥션 유효성 검사 timeout
   jpa:
     database: mysql
     hibernate:
@@ -42,6 +50,13 @@ spring:
     streams:
       application-id: "member-streams-app"
       processing.guarantee: exactly_once_v2
+
+management:
+  endpoints:
+    web:
+      base-path: /${APP_NAME}/actuator
+      exposure:
+        include: "*"
 
 springdoc:
   default-consumes-media-type: application/json;charset=UTF-8
